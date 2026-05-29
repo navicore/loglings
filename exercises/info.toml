@@ -1,0 +1,33 @@
+# loglings exercise registry.
+#
+# Each entry:
+#   name = short identifier (used by `loglings hint <name>` etc.)
+#   path = path relative to the project root
+#   mode = "parse" (file must parse) or "test" (hidden `test/0` must succeed)
+#
+# Default mode is "test".
+
+[[exercises]]
+name = "01-fact"
+path = "exercises/00-intro/01-fact.pl"
+mode = "test"
+
+[[exercises]]
+name = "02-multiple-facts"
+path = "exercises/00-intro/02-multiple-facts.pl"
+mode = "test"
+
+[[exercises]]
+name = "03-findall"
+path = "exercises/00-intro/03-findall.pl"
+mode = "test"
+
+[[exercises]]
+name = "04-rule"
+path = "exercises/00-intro/04-rule.pl"
+mode = "test"
+
+[[exercises]]
+name = "05-list"
+path = "exercises/00-intro/05-list.pl"
+mode = "test"

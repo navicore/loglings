@@ -1,0 +1,24 @@
+[package]
+name = "loglings"
+version = "0.0.1"
+edition = "2021"
+authors = ["Ed Sweeney <ed@onextent.com>"]
+license = "MIT"
+description = "Interactive exercises for learning Prolog with patch-prolog"
+repository = "https://git.navicore.tech/navicore/loglings"
+
+[[bin]]
+name = "loglings"
+path = "src/main.rs"
+
+[dependencies]
+clap = { version = "4", features = ["derive"] }
+clap_complete = "4"
+toml = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+colored = "3"
+ctrlc = "3"
+notify = "8"
+notify-debouncer-mini = "0.7"
+include_dir = "0.7"
