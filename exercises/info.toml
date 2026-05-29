@@ -31,3 +31,90 @@ mode = "test"
 name = "05-list"
 path = "exercises/00-intro/05-list.pl"
 mode = "test"
+
+# ============================================================
+# 01-arithmetic: is/2 and the four basic operators
+# ============================================================
+
+[[exercises]]
+name = "01-is-basics"
+path = "exercises/01-arithmetic/01-is-basics.pl"
+mode = "test"
+
+[[exercises]]
+name = "02-subtraction"
+path = "exercises/01-arithmetic/02-subtraction.pl"
+mode = "test"
+
+[[exercises]]
+name = "03-multiplication"
+path = "exercises/01-arithmetic/03-multiplication.pl"
+mode = "test"
+
+[[exercises]]
+name = "04-int-division"
+path = "exercises/01-arithmetic/04-int-division.pl"
+mode = "test"
+
+[[exercises]]
+name = "05-arith-in-rule"
+path = "exercises/01-arithmetic/05-arith-in-rule.pl"
+mode = "test"
+
+# ============================================================
+# 02-comparison: <, >, =<, >=, =:=, =\=
+# ============================================================
+
+[[exercises]]
+name = "01-less-than"
+path = "exercises/02-comparison/01-less-than.pl"
+mode = "test"
+
+[[exercises]]
+name = "02-greater-than"
+path = "exercises/02-comparison/02-greater-than.pl"
+mode = "test"
+
+[[exercises]]
+name = "03-less-equal-greater-equal"
+path = "exercises/02-comparison/03-less-equal-greater-equal.pl"
+mode = "test"
+
+[[exercises]]
+name = "04-arith-equal"
+path = "exercises/02-comparison/04-arith-equal.pl"
+mode = "test"
+
+[[exercises]]
+name = "05-arith-not-equal"
+path = "exercises/02-comparison/05-arith-not-equal.pl"
+mode = "test"
+
+# ============================================================
+# 03-recursion: base case + recursive step
+# ============================================================
+
+[[exercises]]
+name = "01-countdown"
+path = "exercises/03-recursion/01-countdown.pl"
+mode = "test"
+
+[[exercises]]
+name = "02-factorial"
+path = "exercises/03-recursion/02-factorial.pl"
+mode = "test"
+
+[[exercises]]
+name = "03-sum-list"
+path = "exercises/03-recursion/03-sum-list.pl"
+mode = "test"
+
+[[exercises]]
+name = "04-my-length"
+path = "exercises/03-recursion/04-my-length.pl"
+mode = "test"
+
+[[exercises]]
+name = "05-double-each"
+path = "exercises/03-recursion/05-double-each.pl"
+mode = "test"
