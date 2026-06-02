@@ -2,7 +2,8 @@
 
 ## Current state
 
-Engine: `patch-prolog` (subprocess). CLI commands implemented: `init`,
+Engine: the `prlg` binary (subprocess; from the patch-prolog project),
+currently 0.4.1. CLI commands implemented: `init`,
 `update` (+ `--dry-run`, `--force`), `list`, `verify`, `hint`, `next`, `reset`,
 and the default watch loop.
 
@@ -30,13 +31,19 @@ Restructure to teach the term model *before* comparison (see
 
 All six new exercises are verified passing on the installed engine.
 
-## Known issues / external dependencies
+## External dependencies
 
-- Surfaced to patch-prolog: #18 (parse-error line numbers offset by prepended
-  stdlib), #19 (operators rejected as bare atoms — must be quoted), #20 (errors
-  name internal token types), #21 (no stdin / inline `--program` input). #18 and
-  #20 directly affect the learner's error experience, since loglings shows
-  engine output verbatim.
+- All five engine findings (patch-prolog #17–#21) are **resolved as of
+  `prlg` 0.4.1**: correct parse-error line numbers, operators usable as bare
+  atoms, surface-syntax error messages, and stdin / inline `--program` input.
+  The binary was renamed `patch-prolog` → `prlg` (a breaking change; loglings'
+  runner now invokes `prlg`).
+- Open engine items raised for the operator lessons (none block loglings — its
+  test path is in-file clauses with single-atom goals): #28 (prefix `+`/`\`),
+  #29 (infix `** ^ >> << xor div /\ \/ :`), #30 (`--goal` query silently
+  truncates at the first unparsed token), #31 (document operator support /
+  postfix unsupported by design). The prefix/infix curriculum is built against
+  what 0.4.1 already supports (`-`, `\+`, the arithmetic/comparison infix set).
 - `README.md` curriculum table is stale — it lists only `00-intro`.
 
 ## Future

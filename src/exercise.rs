@@ -14,7 +14,7 @@ pub const NOT_DONE_MARKER: &str = "% I AM NOT DONE";
 #[derive(Debug, Clone, Copy, Default, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "lowercase")]
 pub enum ExerciseMode {
-    /// File must parse (patch-prolog returns exit code != 2 on `--goal "true"`).
+    /// File must parse (the engine returns exit code != 2 on `--goal "true"`).
     Parse,
     /// Hidden checker section defines `test/0` and that goal must succeed.
     #[default]

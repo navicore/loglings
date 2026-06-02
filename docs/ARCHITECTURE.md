@@ -7,11 +7,11 @@ harder exercises (rustlings/seqlings-style). The learner edits `.pl` files in
 their own editor; loglings watches the files and re-checks on save.
 
 Boundary: loglings does **not** interpret Prolog itself. The one external
-system is **`patch-prolog`** (a sibling project, must be on `PATH`), invoked as
-a subprocess to check each exercise. loglings is the downstream consumer of
-that engine and also feeds findings back to it as issues (e.g. patch-prolog
-#18–#21). Everything else — exercises, hints, solutions — ships inside the
-loglings binary.
+system is the **`prlg`** binary (shipped by the `patch-prolog` sibling
+project, must be on `PATH`), invoked as a subprocess to check each exercise.
+loglings is the downstream consumer of that engine and also feeds findings
+back to it as issues (e.g. patch-prolog #18–#21). Everything else — exercises,
+hints, solutions — ships inside the loglings binary.
 
 ## Solution Strategy
 
@@ -20,7 +20,7 @@ loglings binary.
   into the binary at build time with `include_dir!`. `loglings init` extracts
   them into a fresh workspace; the published crate needs no repo checkout.
 - **Checking is delegated**, not embedded: `runner` shells out to
-  `patch-prolog run <file> --goal <goal> --format text` and maps the engine's
+  `prlg run <file> --goal <goal> --format text` and maps the engine's
   exit-code contract (`0` no solutions / `1` solutions / `2` parse error /
   `3` runtime error) onto a `CheckOutcome`.
 - **Watch loop** via `notify` + a 200 ms debouncer; re-renders only when the
@@ -35,7 +35,7 @@ loglings binary.
   (`NotDone` / `Done` / `Failed(msg)`), `ExerciseMode` (`Parse` / `Test`).
   `load()` parses `exercises/info.toml`; `status()` reads the on-disk file,
   checks for the marker, else calls `runner::check`.
-- `src/runner.rs` — the patch-prolog subprocess seam and exit-code mapping.
+- `src/runner.rs` — the `prlg` subprocess seam and exit-code mapping.
 - `src/update.rs` — refreshes on-disk exercises from the embedded corpus
   without trampling in-progress work (`Create` / `Replace` / `ForceReplace` /
   `Preserve` / `AlreadyCurrent`).
@@ -64,10 +64,9 @@ loglings binary.
 
 - **Embedded corpus vs working copy.** `include_dir!` holds the canonical bytes;
   the workspace on disk is the editable copy; `reset`/`update` reconcile them.
-- **Exit-code contract** is the entire integration with patch-prolog; engine
-  stdout/stderr is surfaced to the learner verbatim (so engine error-message
-  quality matters — cf. patch-prolog #18/#20).
-- **Engine constraints shape exercise authoring.** Operators must be written as
-  quoted atoms in term position (patch-prolog #19); learner-supplied *fact*
+- **Exit-code contract** is the entire integration with the `prlg` engine;
+  engine stdout/stderr is surfaced to the learner verbatim (so engine
+  error-message quality matters).
+- **Engine behavior shapes exercise authoring.** Learner-supplied *fact*
   predicates get a `:- dynamic(F/A).` declaration in the hidden section so an
   un-started file fails as `false.` instead of throwing `existence_error`.

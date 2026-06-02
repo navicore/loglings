@@ -17,7 +17,7 @@ Inspired by [rustlings](https://github.com/rust-lang/rustlings) and [seqlings](h
 
 ## Prerequisites
 
-You need `patch-prolog` installed and on your `PATH`. See the [patch-prolog README](https://git.navicore.tech/navicore/patch-prolog) for setup.
+You need the `prlg` binary (shipped by the `patch-prolog` crate) installed and on your `PATH`. `cargo install patch-prolog` puts it there. See the [patch-prolog README](https://git.navicore.tech/navicore/patch-prolog) for details.
 
 ## Quick start
 
