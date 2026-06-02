@@ -95,6 +95,26 @@ Ask a question:
 X = ann.
 ```
 
+## Development
+
+The [`justfile`](justfile) is the single source of truth for build/test/lint —
+both local development and CI run the same recipes, so they can't drift.
+
+Run the full check suite before pushing:
+
+```bash
+just ci      # fmt-check + lint + test + build
+```
+
+`just ci` runs, in order: formatting (`cargo fmt --check`), clippy with
+warnings treated as errors, the test suite, and a release build. Other handy
+recipes: `just fmt`, `just install`, `just clean`, `just stats`.
+
+CI runs on **Forgejo Actions** ([`.forgejo/workflows/ci-linux.yml`](.forgejo/workflows/ci-linux.yml))
+on pull requests to `main`. It calls `just ci` and nothing else. The toolchain
+is pinned to the Rust version in [`rust-toolchain.toml`](rust-toolchain.toml),
+which must match the `navicore-rust` runner image.
+
 ## Reporting issues
 
 If an exercise feels unfair, the hint is wrong, or you've discovered an engine gap (loglings refuses to accept your obviously-correct answer because the engine can't parse it), please open an issue at:
