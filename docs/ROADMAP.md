@@ -3,7 +3,7 @@
 ## Current state
 
 Engine: the `prlg` binary (subprocess; from the patch-prolog project),
-currently 0.4.1. CLI commands implemented: `init`,
+currently 0.5.0. CLI commands implemented: `init`,
 `update` (+ `--dry-run`, `--force`), `list`, `verify`, `hint`, `next`, `reset`,
 and the default watch loop.
 
@@ -38,12 +38,12 @@ All six new exercises are verified passing on the installed engine.
   atoms, surface-syntax error messages, and stdin / inline `--program` input.
   The binary was renamed `patch-prolog` → `prlg` (a breaking change; loglings'
   runner now invokes `prlg`).
-- Open engine items raised for the operator lessons (none block loglings — its
-  test path is in-file clauses with single-atom goals): #28 (prefix `+`/`\`),
-  #29 (infix `** ^ >> << xor div /\ \/ :`), #30 (`--goal` query silently
-  truncates at the first unparsed token), #31 (document operator support /
-  postfix unsupported by design). The prefix/infix curriculum is built against
-  what 0.4.1 already supports (`-`, `\+`, the arithmetic/comparison infix set).
+- Operator-lesson engine items #28 (prefix `+`/`\`), #29 (infix
+  `** ^ >> << xor div /\ \/ :`), #30 (`--goal` truncation), #31 (operator docs)
+  are **resolved as of `prlg` 0.5.0**: prefix and infix are now complete, and the
+  prefix/infix curriculum uses the full set (incl. right-associative `^`).
+  Postfix and `op/3` remain unsupported by design — the curriculum's
+  engine-boundary lesson.
 - `README.md` curriculum table is stale — it lists only `00-intro`.
 
 ## Future

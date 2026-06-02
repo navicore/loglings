@@ -5,7 +5,3 @@ a head and a body separated by `:-`. The body is the goal that has to
 succeed for the head to succeed.
 
 In this case the body is the `is/2` goal itself.
-
-## Solution sketch
-
-    answer(X) :- X is 100 + 23.

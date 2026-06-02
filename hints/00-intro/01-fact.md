@@ -9,9 +9,3 @@ You already have one example fact:
 
 The exercise wants a fact named `fruit` that takes one argument `apple`.
 Use the same shape.
-
-## Solution sketch
-
-Add a single line:
-
-    fruit(apple).

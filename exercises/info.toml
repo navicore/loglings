@@ -62,59 +62,102 @@ path = "exercises/01-arithmetic/05-arith-in-rule.pl"
 mode = "test"
 
 # ============================================================
-# 02-comparison: <, >, =<, >=, =:=, =\=
+# 02-terms: atoms, numbers, variables/unification, compound terms, arity
+# ============================================================
+
+[[exercises]]
+name = "01-atoms-and-numbers"
+path = "exercises/02-terms/01-atoms-and-numbers.pl"
+mode = "test"
+
+[[exercises]]
+name = "02-variables-unify"
+path = "exercises/02-terms/02-variables-unify.pl"
+mode = "test"
+
+[[exercises]]
+name = "03-compound-terms"
+path = "exercises/02-terms/03-compound-terms.pl"
+mode = "test"
+
+[[exercises]]
+name = "04-arity"
+path = "exercises/02-terms/04-arity.pl"
+mode = "test"
+
+# ============================================================
+# 03-operators: operators-as-terms, prefix/infix, precedence/associativity
+# ============================================================
+
+[[exercises]]
+name = "01-operators-are-terms"
+path = "exercises/03-operators/01-operators-are-terms.pl"
+mode = "test"
+
+[[exercises]]
+name = "02-prefix-and-infix"
+path = "exercises/03-operators/02-prefix-and-infix.pl"
+mode = "test"
+
+[[exercises]]
+name = "03-precedence-assoc"
+path = "exercises/03-operators/03-precedence-assoc.pl"
+mode = "test"
+
+# ============================================================
+# 04-comparison: <, >, =<, >=, =:=, =\=
 # ============================================================
 
 [[exercises]]
 name = "01-less-than"
-path = "exercises/02-comparison/01-less-than.pl"
+path = "exercises/04-comparison/01-less-than.pl"
 mode = "test"
 
 [[exercises]]
 name = "02-greater-than"
-path = "exercises/02-comparison/02-greater-than.pl"
+path = "exercises/04-comparison/02-greater-than.pl"
 mode = "test"
 
 [[exercises]]
 name = "03-less-equal-greater-equal"
-path = "exercises/02-comparison/03-less-equal-greater-equal.pl"
+path = "exercises/04-comparison/03-less-equal-greater-equal.pl"
 mode = "test"
 
 [[exercises]]
 name = "04-arith-equal"
-path = "exercises/02-comparison/04-arith-equal.pl"
+path = "exercises/04-comparison/04-arith-equal.pl"
 mode = "test"
 
 [[exercises]]
 name = "05-arith-not-equal"
-path = "exercises/02-comparison/05-arith-not-equal.pl"
+path = "exercises/04-comparison/05-arith-not-equal.pl"
 mode = "test"
 
 # ============================================================
-# 03-recursion: base case + recursive step
+# 05-recursion: base case + recursive step
 # ============================================================
 
 [[exercises]]
 name = "01-countdown"
-path = "exercises/03-recursion/01-countdown.pl"
+path = "exercises/05-recursion/01-countdown.pl"
 mode = "test"
 
 [[exercises]]
 name = "02-factorial"
-path = "exercises/03-recursion/02-factorial.pl"
+path = "exercises/05-recursion/02-factorial.pl"
 mode = "test"
 
 [[exercises]]
 name = "03-sum-list"
-path = "exercises/03-recursion/03-sum-list.pl"
+path = "exercises/05-recursion/03-sum-list.pl"
 mode = "test"
 
 [[exercises]]
 name = "04-my-length"
-path = "exercises/03-recursion/04-my-length.pl"
+path = "exercises/05-recursion/04-my-length.pl"
 mode = "test"
 
 [[exercises]]
 name = "05-double-each"
-path = "exercises/03-recursion/05-double-each.pl"
+path = "exercises/05-recursion/05-double-each.pl"
 mode = "test"
