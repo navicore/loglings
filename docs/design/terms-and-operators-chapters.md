@@ -33,18 +33,21 @@ terms; precedence/associativity as the disambiguation rule.
 - **Hints are nudges, not answers.** Strip the `## Solution sketch` from every
   hint project-wide; solutions stay in `solutions/`.
 
-## Engine notes (prlg 0.4.1)
+## Engine notes (prlg 0.5.0)
 
-- Operators are usable as bare atoms in term position (patch-prolog #19, fixed),
-  so `01-operators-are-terms` writes `+`/`*`/`-` directly — no quoting needed.
+- Operators are usable as bare atoms in term position (#19), so
+  `01-operators-are-terms` writes `+`/`*`/`-` directly — no quoting needed.
 - Learner-supplied **fact** predicates get `:- dynamic(F/A).` in the hidden
   section so an un-started file fails as `false.` rather than throwing.
-- **Operator fixity is partial, by engine design.** prlg supports prefix (`-`,
-  `\+`) and infix; it has no postfix operators and no `op/3`. The
-  prefix/infix exercise uses only `-`/`\+`/infix — all runnable on 0.4.1 — and
-  the prose presents postfix as "the language has it; this engine is a
-  deliberate subset" (engine-boundary lesson). Tracked engine gaps: #28, #29,
-  #31.
+- **Prefix and infix are now complete** (#28, #29 resolved). Usable: prefix
+  `+ - \ \+`; infix incl. `** ^ >> << xor div /\ \/ :` alongside the
+  arithmetic/comparison set. `^` is right-associative (`2^3^2 = 2^(3^2) = 512`),
+  which `03-precedence-assoc` uses to contrast with left-associative `-`.
+- **Postfix and `op/3` remain unsupported — by engine design.** This is the
+  curriculum's engine-boundary lesson: "the language has postfix; this engine is
+  a deliberate subset." Documented engine-side by #31.
+- The `--goal` query-truncation bug (#30) is fixed; loglings was never exposed
+  (it passes only single-atom goals), but ad-hoc multi-goal probing is now safe.
 
 ## Curriculum order (after this change)
 
@@ -130,14 +133,21 @@ test :- notation(- a, prefix), notation(\+ foo, prefix),
 ```
 
 ### 03-operators/03-precedence-assoc — why grouping happens
-`*` binds tighter than `+`; `-` is left-associative, so `10 - 3 - 2` is
-`(10-3)-2 = 5`. Closes the loop with `01-arithmetic`.
+Three ideas: **precedence** (`*` binds tighter than `+`), **left-associativity**
+(`-`: `10 - 3 - 2` = `(10-3)-2` = 5), and **right-associativity** (`^`:
+`2 ^ 3 ^ 2` = `2^(3^2)` = 512, *not* `(2^3)^2` = 64). The learner writes the
+explicit parenthesization that matches each operator's grouping; a wrong choice
+fails the test. Closes the loop with `01-arithmetic`.
 ```prolog
 % task:
-answer(X)       :- X is (2 + 3) * 4.     % parens beat * precedence -> 20
-same_as_bare(Y) :- Y is (10 - 3) - 2.    % pick the left-assoc grouping
+answer(X)        :- X is (2 + 3) * 4.    % parens beat * precedence -> 20
+left_grouped(Y)  :- Y is (10 - 3) - 2.   % - left-assoc  -> 5
+right_grouped(Z) :- Z is 2 ^ (3 ^ 2).    % ^ right-assoc -> 512
 % test:
-test :- answer(20), X is 10 - 3 - 2, same_as_bare(Y), Y =:= X, Y =:= 5.
+test :-
+    answer(20),
+    A is 10 - 3 - 2, left_grouped(Y),  Y =:= A, Y =:= 5,
+    B is 2 ^ 3 ^ 2,  right_grouped(Z), Z =:= B, Z =:= 512.
 ```
 
 ## Build checklist

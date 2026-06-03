@@ -1,0 +1,57 @@
+name: CI - Linux
+
+on:
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+# This workflow ONLY calls `just` commands. The justfile is the source
+# of truth for all build/test/lint logic, preventing drift between
+# local development and CI.
+#
+# `runs-on: navicore-rust` targets the custom job image at
+# git.navicore.tech/navicore/navicore-forgejo-runner:latest, which has
+# Rust 1.95.0 and just pre-installed. The Rust version there MUST stay
+# in sync with rust-toolchain.toml at the repo root.
+
+jobs:
+  ci-linux:
+    name: CI - Linux x86_64
+    runs-on: navicore-rust
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v6
+
+    - name: Verify toolchain
+      run: |
+        rustc --version
+        cargo --version
+        cargo clippy --version
+        just --version
+
+    - name: Cache cargo registry
+      uses: actions/cache@v5
+      with:
+        path: ~/.cargo/registry
+        key: linux-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+
+    - name: Cache cargo index
+      uses: actions/cache@v5
+      with:
+        path: ~/.cargo/git
+        key: linux-cargo-git-${{ hashFiles('**/Cargo.lock') }}
+
+    # NOTE: target/ is intentionally NOT cached. Stale compiled test
+    # binaries can cause false failures when language semantics change.
+
+    # The curriculum tests (tests/curriculum.rs) verify every exercise/solution
+    # against the real Prolog engine, so `prlg` must be on PATH. Pinned to the
+    # version the curriculum is authored and verified against; bump deliberately.
+    - name: Install prlg engine (patch-prolog, pinned)
+      run: |
+        cargo install patch-prolog --version 0.5.0 --locked --force
+        prlg --version
+
+    - name: Run CI checks (just ci)
+      run: just ci

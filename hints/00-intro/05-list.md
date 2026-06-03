@@ -7,7 +7,3 @@ brackets:
 
 The order doesn't matter for `member/2` — it walks the list looking for the
 element, so any order will satisfy all three `member` checks in the test.
-
-## Solution sketch
-
-    pantry([flour, sugar, eggs]).
