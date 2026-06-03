@@ -44,7 +44,6 @@ All six new exercises are verified passing on the installed engine.
   prefix/infix curriculum uses the full set (incl. right-associative `^`).
   Postfix and `op/3` remain unsupported by design — the curriculum's
   engine-boundary lesson.
-- `README.md` curriculum table is stale — it lists only `00-intro`.
 
 ## Future
 

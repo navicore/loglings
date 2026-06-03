@@ -66,11 +66,16 @@ loglings reset 01-fact
 | `loglings reset` | Reset the current exercise to original |
 | `loglings reset <name>` | Reset a specific exercise |
 
-## Curriculum (starting slice)
+## Curriculum
 
 | Section | Topics |
 |---|---|
 | **00-intro** | Facts, queries, multiple solutions, rules, lists |
+| **01-arithmetic** | `is/2` and the four operators (`+ - * //`) |
+| **02-terms** | Atoms vs numbers, variables & unification, compound terms, arity (`name/N`) |
+| **03-operators** | Operators as terms (`=..`), prefix vs infix, precedence & associativity |
+| **04-comparison** | `<` `>` `=<` `>=` `=:=` `=\=` |
+| **05-recursion** | Base case + recursive step: countdown, factorial, sum, length, map |
 
 More sections will be added as the curriculum grows. The engine is still gaining features; expect new sections to follow new engine capabilities.
 
