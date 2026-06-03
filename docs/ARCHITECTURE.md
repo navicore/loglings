@@ -70,3 +70,8 @@ hints, solutions — ships inside the loglings binary.
 - **Engine behavior shapes exercise authoring.** Learner-supplied *fact*
   predicates get a `:- dynamic(F/A).` declaration in the hidden section so an
   un-started file fails as `false.` instead of throwing `existence_error`.
+- **The corpus is the test surface.** `tests/curriculum.rs` is where loglings is
+  actually tested: structural checks over `info.toml` and the three trees, plus
+  semantic checks that run every reference solution and starter through `prlg`.
+  CI (`just ci` on the `navicore-rust` Forgejo runner) installs a pinned
+  `patch-prolog` first so the semantic tests have an engine.

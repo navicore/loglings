@@ -110,10 +110,25 @@ just ci      # fmt-check + lint + test + build
 warnings treated as errors, the test suite, and a release build. Other handy
 recipes: `just fmt`, `just install`, `just clean`, `just stats`.
 
+### Tests
+
+The real test surface is the Prolog corpus, exercised by
+[`tests/curriculum.rs`](tests/curriculum.rs) on every `cargo test`:
+
+- **Structural** (no engine): the registry is consistent, every exercise has a
+  solution + hint, starters carry the `% I AM NOT DONE` marker and solutions
+  don't, hints leak no answers, no corpus file is orphaned.
+- **Semantic** (runs the engine): every reference solution makes its hidden
+  `test/0` pass, and every starter parses, on real `prlg`.
+
+The semantic tests require `prlg` on your `PATH` — which you already have if
+you can run the exercises.
+
 CI runs on **Forgejo Actions** ([`.forgejo/workflows/ci-linux.yml`](.forgejo/workflows/ci-linux.yml))
-on pull requests to `main`. It calls `just ci` and nothing else. The toolchain
-is pinned to the Rust version in [`rust-toolchain.toml`](rust-toolchain.toml),
-which must match the `navicore-rust` runner image.
+on pull requests to `main`. It installs a pinned `patch-prolog` (so `prlg` is
+available for the semantic tests), then calls `just ci`. The Rust toolchain is
+pinned in [`rust-toolchain.toml`](rust-toolchain.toml), which must match the
+`navicore-rust` runner image.
 
 ## Reporting issues
 

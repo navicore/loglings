@@ -45,5 +45,13 @@ jobs:
     # NOTE: target/ is intentionally NOT cached. Stale compiled test
     # binaries can cause false failures when language semantics change.
 
+    # The curriculum tests (tests/curriculum.rs) verify every exercise/solution
+    # against the real Prolog engine, so `prlg` must be on PATH. Pinned to the
+    # version the curriculum is authored and verified against; bump deliberately.
+    - name: Install prlg engine (patch-prolog, pinned)
+      run: |
+        cargo install patch-prolog --version 0.5.0 --locked --force
+        prlg --version
+
     - name: Run CI checks (just ci)
       run: just ci
