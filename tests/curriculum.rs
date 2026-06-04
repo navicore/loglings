@@ -13,6 +13,8 @@
 //! CI installs it and local development already has it — so its absence is a
 //! test failure, not a skip.
 
+#![warn(clippy::pedantic)]
+
 use std::collections::HashSet;
 use std::path::{Path, PathBuf};
 use std::process::Command;
@@ -202,8 +204,7 @@ fn require_plgc() {
     let ok = Command::new("plgc")
         .arg("--version")
         .output()
-        .map(|o| o.status.success())
-        .unwrap_or(false);
+        .is_ok_and(|o| o.status.success());
     assert!(
         ok,
         "`plgc` not found on PATH — it is required for the semantic curriculum \

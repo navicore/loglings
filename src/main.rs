@@ -1,5 +1,15 @@
 //! loglings — interactive exercises for learning Prolog.
 
+#![warn(clippy::pedantic)]
+// Two pedantic lints misfire on this codebase: `needless_continue` flags the
+// explicit `Timeout => continue` in the watch poll loop (clearer as written),
+// and `case_sensitive_file_extension_comparisons` wants a case-insensitive
+// `.pl` check, but our corpus paths are always lowercase by construction.
+#![allow(
+    clippy::needless_continue,
+    clippy::case_sensitive_file_extension_comparisons
+)]
+
 mod exercise;
 mod runner;
 mod update;
@@ -7,8 +17,8 @@ mod update;
 use clap::{Parser, Subcommand};
 use colored::Colorize;
 use exercise::{Exercise, Status};
-use include_dir::{include_dir, Dir};
-use notify_debouncer_mini::{new_debouncer, DebounceEventResult};
+use include_dir::{Dir, include_dir};
+use notify_debouncer_mini::{DebounceEventResult, new_debouncer};
 use std::path::{Path, PathBuf};
 use std::sync::mpsc::channel;
 use std::time::Duration;
@@ -81,7 +91,7 @@ fn main() {
     let exercises = load_exercises_from_cwd(&base);
 
     match cli.command {
-        Some(Command::Init { .. }) | Some(Command::Update { .. }) => {
+        Some(Command::Init { .. } | Command::Update { .. }) => {
             unreachable!("handled above")
         }
         None => watch(&exercises),
@@ -121,21 +131,18 @@ fn ensure_workspace() {
 /// with a clear hint pointing at `loglings init`.
 fn load_exercises_from_cwd(base: &Path) -> Vec<Exercise> {
     let info_path = base.join("exercises").join("info.toml");
-    let info_toml = match std::fs::read_to_string(&info_path) {
-        Ok(s) => s,
-        Err(_) => {
-            eprintln!(
-                "{} No loglings workspace here (couldn't read {}).",
-                "Error:".red(),
-                info_path.display()
-            );
-            eprintln!(
-                "{} Run `{}` to create one, then `cd` into it.",
-                "Hint:".yellow(),
-                "loglings init".cyan()
-            );
-            std::process::exit(1);
-        }
+    let Ok(info_toml) = std::fs::read_to_string(&info_path) else {
+        eprintln!(
+            "{} No loglings workspace here (couldn't read {}).",
+            "Error:".red(),
+            info_path.display()
+        );
+        eprintln!(
+            "{} Run `{}` to create one, then `cd` into it.",
+            "Hint:".yellow(),
+            "loglings init".cyan()
+        );
+        std::process::exit(1);
     };
     exercise::load(&info_toml, base).unwrap_or_else(|e| {
         eprintln!("{} {e}", "Failed to load exercises:".red());
@@ -341,10 +348,10 @@ fn refresh(
 ) {
     let Some(ex) = current(exercises) else {
         if last_name.as_deref() != Some("") {
-            if let Some(prev) = last_name.as_deref() {
-                if !prev.is_empty() {
-                    println!("  {} {}", "✓".green(), prev.cyan());
-                }
+            if let Some(prev) = last_name.as_deref()
+                && !prev.is_empty()
+            {
+                println!("  {} {}", "✓".green(), prev.cyan());
             }
             println!("\n{}", "All exercises pass — you're done!".green().bold());
             *last_name = Some(String::new());
@@ -361,10 +368,11 @@ fn refresh(
     }
 
     // We moved past the previous exercise (it transitioned to Done).
-    if let Some(prev) = last_name.as_deref() {
-        if !prev.is_empty() && prev != ex.name {
-            println!("  {} {}", "✓".green(), prev.cyan());
-        }
+    if let Some(prev) = last_name.as_deref()
+        && !prev.is_empty()
+        && prev != ex.name
+    {
+        println!("  {} {}", "✓".green(), prev.cyan());
     }
 
     report(ex, &status);

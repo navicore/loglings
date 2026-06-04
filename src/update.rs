@@ -2,12 +2,12 @@
 //! without trampling the user's in-progress work.
 //!
 //! Rule per file (mirrors seqlings):
-//! - File missing on disk → **Create**.
-//! - On-disk bytes already match the embedded copy → **AlreadyCurrent** (no-op).
-//! - User listed it via `--force <name>` → **ForceReplace**.
+//! - File missing on disk → `Create`.
+//! - On-disk bytes already match the embedded copy → `AlreadyCurrent` (no-op).
+//! - User listed it via `--force <name>` → `ForceReplace`.
 //! - The `% I AM NOT DONE` marker is still present as a whole line → user
-//!   hasn't started yet → **Replace**.
-//! - Otherwise the user has edited the file → **Preserve**, leave it alone.
+//!   hasn't started yet → `Replace`.
+//! - Otherwise the user has edited the file → `Preserve`, leave it alone.
 //!
 //! `hints/`, `solutions/`, and `exercises/info.toml` are reference material
 //! and refresh wholesale (the user isn't expected to edit them).
@@ -62,26 +62,20 @@ pub fn run(
             Action::AlreadyCurrent => current_count += 1,
             Action::Create => {
                 created.push(rel_str);
-                if !dry_run {
-                    if let Err(e) = write_file(&on_disk, f.contents()) {
-                        errors.push(format!("create {}: {e}", on_disk.display()));
-                    }
+                if !dry_run && let Err(e) = write_file(&on_disk, f.contents()) {
+                    errors.push(format!("create {}: {e}", on_disk.display()));
                 }
             }
             Action::Replace => {
                 replaced.push(rel_str);
-                if !dry_run {
-                    if let Err(e) = write_file(&on_disk, f.contents()) {
-                        errors.push(format!("replace {}: {e}", on_disk.display()));
-                    }
+                if !dry_run && let Err(e) = write_file(&on_disk, f.contents()) {
+                    errors.push(format!("replace {}: {e}", on_disk.display()));
                 }
             }
             Action::ForceReplace => {
                 force_replaced.push(rel_str);
-                if !dry_run {
-                    if let Err(e) = write_file(&on_disk, f.contents()) {
-                        errors.push(format!("force-replace {}: {e}", on_disk.display()));
-                    }
+                if !dry_run && let Err(e) = write_file(&on_disk, f.contents()) {
+                    errors.push(format!("force-replace {}: {e}", on_disk.display()));
                 }
             }
             Action::Preserve => preserved.push(rel_str),
@@ -89,10 +83,10 @@ pub fn run(
     }
 
     if !dry_run {
-        if let Some(info) = exercises_dir.get_file("info.toml") {
-            if let Err(e) = write_file(Path::new("exercises/info.toml"), info.contents()) {
-                errors.push(format!("refresh exercises/info.toml: {e}"));
-            }
+        if let Some(info) = exercises_dir.get_file("info.toml")
+            && let Err(e) = write_file(Path::new("exercises/info.toml"), info.contents())
+        {
+            errors.push(format!("refresh exercises/info.toml: {e}"));
         }
         if let Err(e) = refresh_tree(solutions_dir, "solutions") {
             errors.push(format!("refresh solutions/: {e}"));
@@ -138,9 +132,8 @@ fn normalize_force(force: &[String]) -> HashSet<String> {
 }
 
 fn classify(on_disk: &Path, embedded: &[u8], forced: bool) -> Action {
-    let on_disk_bytes = match std::fs::read(on_disk) {
-        Ok(b) => b,
-        Err(_) => return Action::Create,
+    let Ok(on_disk_bytes) = std::fs::read(on_disk) else {
+        return Action::Create;
     };
     if on_disk_bytes == embedded {
         return Action::AlreadyCurrent;
