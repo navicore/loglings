@@ -1,7 +1,9 @@
-//! Shells out to `prlg run` to check an exercise file. (`prlg` is the
-//! installed-binary name shipped by the `patch-prolog` crate.)
+//! Shells out to `plgc run` to check an exercise file. `plgc` is the Prolog
+//! compiler from the `patch-prolog2` project (crate `plg-compiler`); it
+//! compiles the file to a temp binary and runs it (it never interprets), so
+//! `clang` must be on PATH too.
 //!
-//! Exit-code contract (from `prlg run`):
+//! Exit-code contract (from `plgc run`):
 //!   0 = goal produced no solutions (test failed)
 //!   1 = goal produced ≥1 solution (test passed)
 //!   2 = parse error
@@ -10,7 +12,7 @@
 use std::path::Path;
 use std::process::Command;
 
-const PRLG: &str = "prlg";
+const PLGC: &str = "plgc";
 
 #[derive(Debug)]
 pub enum CheckOutcome {
@@ -22,19 +24,19 @@ pub enum CheckOutcome {
     ParseError(String),
     /// Runtime error from the engine (exit 3).
     RuntimeError(String),
-    /// `prlg` itself failed to invoke (binary missing, etc.).
+    /// `plgc` itself failed to invoke (binary missing, etc.).
     InvocationError(String),
 }
 
 /// Run `goal` against the exercise file. For parse-only exercises, pass `"true"`
-/// — it succeeds iff the file parses; otherwise `prlg` exits with code 2.
+/// — it succeeds iff the file parses; otherwise `plgc` exits with code 2.
 /// For test-mode exercises, the hidden checker section should define `test/0`
 /// and the goal is `"test"`.
 pub fn check(file: &Path, goal: &str) -> CheckOutcome {
-    let output = Command::new(PRLG)
+    let output = Command::new(PLGC)
         .arg("run")
         .arg(file)
-        .arg("--goal")
+        .arg("--query")
         .arg(goal)
         .arg("--format")
         .arg("text")
@@ -44,7 +46,7 @@ pub fn check(file: &Path, goal: &str) -> CheckOutcome {
         Ok(o) => o,
         Err(e) => {
             return CheckOutcome::InvocationError(format!(
-                "Failed to run `{PRLG}`: {e}. Is `{PRLG}` installed and on your PATH? (It ships with the `patch-prolog` crate.)"
+                "Failed to run `{PLGC}`: {e}. Is `{PLGC}` installed and on your PATH? (It ships with the `patch-prolog2` project; it also needs `clang`.)"
             ));
         }
     };
@@ -65,7 +67,7 @@ pub fn check(file: &Path, goal: &str) -> CheckOutcome {
         Some(2) => CheckOutcome::ParseError(combined),
         Some(3) => CheckOutcome::RuntimeError(combined),
         other => CheckOutcome::InvocationError(format!(
-            "Unexpected `{PRLG}` exit code {other:?}: {combined}"
+            "Unexpected `{PLGC}` exit code {other:?}: {combined}"
         )),
     }
 }

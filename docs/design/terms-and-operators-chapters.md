@@ -1,6 +1,8 @@
 # Design: `02-terms` and `03-operators` chapters
 
-Status: approved, not yet built. Verified passing on `prlg` 0.4.1.
+Status: built and in the curriculum. Verified passing on `plgc` 0.1.0
+(patch-prolog2). Originally authored against `prlg` (patch-prolog, now
+archived); the language carried over at parity, so the exercises were unchanged.
 
 ## Motivation
 
@@ -33,21 +35,22 @@ terms; precedence/associativity as the disambiguation rule.
 - **Hints are nudges, not answers.** Strip the `## Solution sketch` from every
   hint project-wide; solutions stay in `solutions/`.
 
-## Engine notes (prlg 0.5.0)
+## Compiler notes (plgc 0.1.0)
 
-- Operators are usable as bare atoms in term position (#19), so
+All verified against `plgc` (the v1→v2 migration preserved the language; these
+held on the old `prlg` engine too).
+
+- Operators are usable as bare atoms in term position, so
   `01-operators-are-terms` writes `+`/`*`/`-` directly — no quoting needed.
 - Learner-supplied **fact** predicates get `:- dynamic(F/A).` in the hidden
   section so an un-started file fails as `false.` rather than throwing.
-- **Prefix and infix are now complete** (#28, #29 resolved). Usable: prefix
-  `+ - \ \+`; infix incl. `** ^ >> << xor div /\ \/ :` alongside the
-  arithmetic/comparison set. `^` is right-associative (`2^3^2 = 2^(3^2) = 512`),
-  which `03-precedence-assoc` uses to contrast with left-associative `-`.
-- **Postfix and `op/3` remain unsupported — by engine design.** This is the
-  curriculum's engine-boundary lesson: "the language has postfix; this engine is
-  a deliberate subset." Documented engine-side by #31.
-- The `--goal` query-truncation bug (#30) is fixed; loglings was never exposed
-  (it passes only single-atom goals), but ad-hoc multi-goal probing is now safe.
+- **Prefix and infix are complete.** Usable: prefix `+ - \ \+`; infix incl.
+  `** ^ >> << xor div /\ \/ :` alongside the arithmetic/comparison set. `^` is
+  right-associative (`2^3^2 = 2^(3^2) = 512`), which `03-precedence-assoc` uses
+  to contrast with left-associative `-`.
+- **Postfix and `op/3` are unsupported — by compiler design** (an explicit
+  exclusion in the ISO subset). This is the curriculum's engine-boundary lesson:
+  "the language has postfix; this compiler is a deliberate subset."
 
 ## Curriculum order (after this change)
 

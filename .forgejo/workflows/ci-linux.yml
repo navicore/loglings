@@ -11,8 +11,9 @@ on:
 #
 # `runs-on: navicore-rust` targets the custom job image at
 # git.navicore.tech/navicore/navicore-forgejo-runner:latest, which has
-# Rust 1.95.0 and just pre-installed. The Rust version there MUST stay
-# in sync with rust-toolchain.toml at the repo root.
+# Rust 1.95.0, clang-19, and just pre-installed. The Rust version there
+# MUST stay in sync with rust-toolchain.toml at the repo root; clang (>= 15)
+# is what `plgc` uses to link each compiled exercise.
 
 jobs:
   ci-linux:
@@ -28,6 +29,7 @@ jobs:
         rustc --version
         cargo --version
         cargo clippy --version
+        clang --version
         just --version
 
     - name: Cache cargo registry
@@ -45,13 +47,16 @@ jobs:
     # NOTE: target/ is intentionally NOT cached. Stale compiled test
     # binaries can cause false failures when language semantics change.
 
-    # The curriculum tests (tests/curriculum.rs) verify every exercise/solution
-    # against the real Prolog engine, so `prlg` must be on PATH. Pinned to the
-    # version the curriculum is authored and verified against; bump deliberately.
-    - name: Install prlg engine (patch-prolog, pinned)
+    # The curriculum tests (tests/curriculum.rs) compile every exercise/solution
+    # with `plgc`, so it must be on PATH. patch-prolog2 is not on crates.io yet
+    # (deliberate — it'll publish once the system matures), so install from git,
+    # pinned to a rev for reproducible CI; bump deliberately. plgc links each
+    # compiled exercise with clang, already in the runner image.
+    - name: Install plgc compiler (patch-prolog2, git rev-pinned)
       run: |
-        cargo install patch-prolog --version 0.5.0 --locked --force
-        prlg --version
+        cargo install --git https://git.navicore.tech/navicore/patch-prolog2.git \
+          plg-compiler --rev 2e5f8ba --locked --force
+        plgc --version
 
     - name: Run CI checks (just ci)
       run: just ci

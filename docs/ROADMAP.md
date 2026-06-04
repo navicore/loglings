@@ -2,8 +2,13 @@
 
 ## Current state
 
-Engine: the `prlg` binary (subprocess; from the patch-prolog project),
-currently 0.5.0. CLI commands implemented: `init`,
+Compiler: the `plgc` binary (subprocess; from patch-prolog2, crate
+`plg-compiler`, currently 0.1.0). It compiles each exercise to a native binary
+via LLVM and links with `clang` ≥ 15 — so `clang` is a runtime dependency. This
+replaced the now-archived `patch-prolog` / `prlg` engine; the CLI contract
+(`run … --query … --format text`, exit codes `0/1/2/3`) and the ISO-subset
+language (still no `op/3`/postfix) carried over, so loglings needed only the
+binary name and the `--goal`→`--query` flag rename. CLI commands implemented: `init`,
 `update` (+ `--dry-run`, `--force`), `list`, `verify`, `hint`, `next`, `reset`,
 and the default watch loop.
 
@@ -33,19 +38,25 @@ All six new exercises are verified passing on the installed engine.
 
 ## External dependencies
 
-- All five engine findings (patch-prolog #17–#21) are **resolved as of
-  `prlg` 0.4.1**: correct parse-error line numbers, operators usable as bare
-  atoms, surface-syntax error messages, and stdin / inline `--program` input.
-  The binary was renamed `patch-prolog` → `prlg` (a breaking change; loglings'
-  runner now invokes `prlg`).
-- Operator-lesson engine items #28 (prefix `+`/`\`), #29 (infix
-  `** ^ >> << xor div /\ \/ :`), #30 (`--goal` truncation), #31 (operator docs)
-  are **resolved as of `prlg` 0.5.0**: prefix and infix are now complete, and the
-  prefix/infix curriculum uses the full set (incl. right-associative `^`).
-  Postfix and `op/3` remain unsupported by design — the curriculum's
-  engine-boundary lesson.
+- **Compiler: `plgc`** (patch-prolog2 / `plg-compiler`, 0.1.0) plus
+  **`clang` ≥ 15**. patch-prolog2 supersedes the now-archived patch-prolog: a
+  real LLVM compiler rather than an interpreter. The ISO-subset language, the
+  builtin vocabulary, and the `0/1/2/3` exit-code contract carried over at
+  parity, so the curriculum was unaffected — only the binary name and the
+  `--goal`→`--query` flag changed.
+- **No `op/3`, no postfix operators** (by design, unchanged from the old
+  engine) — the `03-operators` chapter teaches this as the compiler boundary.
+- The prefix/infix completeness the curriculum relies on (full prefix/infix
+  incl. right-associative `^`) carried into patch-prolog2.
+
+## Notes
+
+- **CI provisions `plgc` via git**, rev-pinned: `cargo install --git
+  …/patch-prolog2.git plg-compiler --rev <sha> --locked`. crates.io publishing
+  is deliberately deferred until patch-prolog2 matures; when it lands, switch
+  the workflow to `cargo install plg-compiler --version X`. Bump the pinned rev
+  deliberately as the compiler evolves.
 
 ## Future
 
-More sections, tracking new patch-prolog engine capabilities (e.g. `assert`/
-`retract`, DCGs) as they land.
+More sections, tracking new patch-prolog2 / `plgc` capabilities as they land.
