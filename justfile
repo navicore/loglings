@@ -2,11 +2,11 @@ default: test
 
 # A clean run is the validation: fmt + clippy, a release build, and the
 # curriculum suite — every solution passes its hidden test and every starter
-# parses on the real prlg engine. No errors == the whole corpus is valid.
+# parses on the real plgc compiler. No errors == the whole corpus is valid.
 # Run all CI checks (same as forgejo actions). Run before pushing.
 ci: fmt-check lint test build
     @echo "✓ Safe to push — CI will pass."
-    @echo "  fmt + clippy clean · release build ok · all $(grep -c '^\[\[exercises\]\]' exercises/info.toml) exercises validated against prlg (each solution passes, each starter parses)."
+    @echo "  fmt + clippy clean · release build ok · all $(grep -c '^\[\[exercises\]\]' exercises/info.toml) exercises validated against plgc (each solution passes, each starter parses)."
 
 # Format all code
 fmt:

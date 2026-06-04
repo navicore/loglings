@@ -7,10 +7,13 @@ harder exercises (rustlings/seqlings-style). The learner edits `.pl` files in
 their own editor; loglings watches the files and re-checks on save.
 
 Boundary: loglings does **not** interpret Prolog itself. The one external
-system is the **`prlg`** binary (shipped by the `patch-prolog` sibling
-project, must be on `PATH`), invoked as a subprocess to check each exercise.
-loglings is the downstream consumer of that engine and also feeds findings
-back to it as issues (e.g. patch-prolog #18–#21). Everything else — exercises,
+system is the **`plgc`** compiler (from the `patch-prolog2` sibling project,
+crate `plg-compiler`; must be on `PATH`), invoked as a subprocess to check each
+exercise. `plgc` is a real LLVM-based compiler — it compiles each file to a
+native binary and runs it (it never interprets), so **`clang` ≥ 15** must be on
+`PATH` too. loglings is the downstream consumer and feeds findings back as
+issues. (It previously used `patch-prolog`'s `prlg` engine, now archived in
+favor of this compiler.) Everything else — exercises,
 hints, solutions — ships inside the loglings binary.
 
 ## Solution Strategy
@@ -20,7 +23,7 @@ hints, solutions — ships inside the loglings binary.
   into the binary at build time with `include_dir!`. `loglings init` extracts
   them into a fresh workspace; the published crate needs no repo checkout.
 - **Checking is delegated**, not embedded: `runner` shells out to
-  `prlg run <file> --goal <goal> --format text` and maps the engine's
+  `plgc run <file> --query <goal> --format text` and maps the compiler's
   exit-code contract (`0` no solutions / `1` solutions / `2` parse error /
   `3` runtime error) onto a `CheckOutcome`.
 - **Watch loop** via `notify` + a 200 ms debouncer; re-renders only when the
@@ -35,7 +38,7 @@ hints, solutions — ships inside the loglings binary.
   (`NotDone` / `Done` / `Failed(msg)`), `ExerciseMode` (`Parse` / `Test`).
   `load()` parses `exercises/info.toml`; `status()` reads the on-disk file,
   checks for the marker, else calls `runner::check`.
-- `src/runner.rs` — the `prlg` subprocess seam and exit-code mapping.
+- `src/runner.rs` — the `plgc` subprocess seam and exit-code mapping.
 - `src/update.rs` — refreshes on-disk exercises from the embedded corpus
   without trampling in-progress work (`Create` / `Replace` / `ForceReplace` /
   `Preserve` / `AlreadyCurrent`).
@@ -64,14 +67,16 @@ hints, solutions — ships inside the loglings binary.
 
 - **Embedded corpus vs working copy.** `include_dir!` holds the canonical bytes;
   the workspace on disk is the editable copy; `reset`/`update` reconcile them.
-- **Exit-code contract** is the entire integration with the `prlg` engine;
-  engine stdout/stderr is surfaced to the learner verbatim (so engine
+- **Exit-code contract** is the entire integration with the `plgc` compiler;
+  its stdout/stderr is surfaced to the learner verbatim (so compiler
   error-message quality matters).
-- **Engine behavior shapes exercise authoring.** Learner-supplied *fact*
+- **Compiler behavior shapes exercise authoring.** Learner-supplied *fact*
   predicates get a `:- dynamic(F/A).` declaration in the hidden section so an
   un-started file fails as `false.` instead of throwing `existence_error`.
+  The language is an ISO subset — no `op/3`, no postfix operators — which the
+  `03-operators` chapter teaches as a deliberate boundary.
 - **The corpus is the test surface.** `tests/curriculum.rs` is where loglings is
   actually tested: structural checks over `info.toml` and the three trees, plus
-  semantic checks that run every reference solution and starter through `prlg`.
-  CI (`just ci` on the `navicore-rust` Forgejo runner) installs a pinned
-  `patch-prolog` first so the semantic tests have an engine.
+  semantic checks that compile every reference solution and starter with `plgc`.
+  CI (`just ci` on the `navicore-rust` Forgejo runner, which provides `clang`)
+  provisions `plgc` first so the semantic tests can compile.

@@ -7,10 +7,11 @@
 //! has a solution + hint, starters carry the `% I AM NOT DONE` marker and
 //! solutions don't, hints leak no answers, and no corpus file is orphaned.
 //!
-//! Tier 2 — semantic (needs `prlg`): every reference solution makes its hidden
-//! `test/0` pass, and every starter parses, on the real engine. `prlg` is a hard
-//! dependency of the project (CI installs a pinned `patch-prolog`; local
-//! development already has it), so its absence is a test failure, not a skip.
+//! Tier 2 — semantic (needs `plgc`): every reference solution makes its hidden
+//! `test/0` pass, and every starter parses, on the real compiler. `plgc` (from
+//! patch-prolog2, crate `plg-compiler`) is a hard dependency of the project —
+//! CI installs it and local development already has it — so its absence is a
+//! test failure, not a skip.
 
 use std::collections::HashSet;
 use std::path::{Path, PathBuf};
@@ -185,42 +186,42 @@ fn no_orphan_corpus_files() {
     assert!(errs.is_empty(), "{}", errs.join("\n"));
 }
 
-// ---------- Tier 2: semantic (requires prlg) ----------
+// ---------- Tier 2: semantic (requires plgc) ----------
 
-fn prlg_exit(file: &Path, goal: &str) -> i32 {
-    let output = Command::new("prlg")
+fn plgc_exit(file: &Path, goal: &str) -> i32 {
+    let output = Command::new("plgc")
         .args(["run"])
         .arg(file)
-        .args(["--goal", goal, "--format", "text"])
+        .args(["--query", goal, "--format", "text"])
         .output()
-        .expect("failed to invoke `prlg` — it is required to run the curriculum tests");
+        .expect("failed to invoke `plgc` — it is required to run the curriculum tests");
     output.status.code().unwrap_or(-1)
 }
 
-fn require_prlg() {
-    let ok = Command::new("prlg")
+fn require_plgc() {
+    let ok = Command::new("plgc")
         .arg("--version")
         .output()
         .map(|o| o.status.success())
         .unwrap_or(false);
     assert!(
         ok,
-        "`prlg` not found on PATH — it is required for the semantic curriculum \
-         tests. CI installs a pinned `patch-prolog`; for local dev, install it."
+        "`plgc` not found on PATH — it is required for the semantic curriculum \
+         tests. CI installs it (patch-prolog2 / plg-compiler); for local dev, install it."
     );
 }
 
 #[test]
 fn every_solution_passes_its_test() {
-    require_prlg();
+    require_plgc();
     let mut errs = Vec::new();
     for e in &registry() {
         let goal = if e.mode == "parse" { "true" } else { "test" };
-        let code = prlg_exit(&solution_path(&e.path), goal);
+        let code = plgc_exit(&solution_path(&e.path), goal);
         // exit 1 == goal succeeded (the pass contract from runner.rs).
         if code != 1 {
             errs.push(format!(
-                "{}: solution did not pass (prlg exit {})",
+                "{}: solution did not pass (plgc exit {})",
                 e.name, code
             ));
         }
@@ -230,11 +231,11 @@ fn every_solution_passes_its_test() {
 
 #[test]
 fn every_starter_parses() {
-    require_prlg();
+    require_plgc();
     let mut errs = Vec::new();
     for e in &registry() {
         // exit 2 == parse error. A starter must always be syntactically valid.
-        let code = prlg_exit(&root().join(&e.path), "true");
+        let code = plgc_exit(&root().join(&e.path), "true");
         if code == 2 {
             errs.push(format!("{}: starter has a parse error", e.name));
         }

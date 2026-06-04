@@ -11,13 +11,13 @@
    "Logic programs, slightly broken."
 ```
 
-Interactive exercises for learning Prolog, powered by [patch-prolog](https://git.navicore.tech/navicore/patch-prolog).
+Interactive exercises for learning Prolog, powered by [patch-prolog2](https://git.navicore.tech/navicore/patch-prolog2).
 
 Inspired by [rustlings](https://github.com/rust-lang/rustlings) and [seqlings](https://git.navicore.tech/navicore/seqlings).
 
 ## Prerequisites
 
-You need the `prlg` binary (shipped by the `patch-prolog` crate) installed and on your `PATH`. `cargo install patch-prolog` puts it there. See the [patch-prolog README](https://git.navicore.tech/navicore/patch-prolog) for details.
+You need the `plgc` compiler (from [patch-prolog2](https://git.navicore.tech/navicore/patch-prolog2), crate `plg-compiler`) on your `PATH`, plus **`clang` ≥ 15** — `plgc` compiles each exercise to a native binary via LLVM and links it with clang. See the [patch-prolog2 README](https://git.navicore.tech/navicore/patch-prolog2) for details.
 
 ## Quick start
 
@@ -123,24 +123,24 @@ The real test surface is the Prolog corpus, exercised by
 - **Structural** (no engine): the registry is consistent, every exercise has a
   solution + hint, starters carry the `% I AM NOT DONE` marker and solutions
   don't, hints leak no answers, no corpus file is orphaned.
-- **Semantic** (runs the engine): every reference solution makes its hidden
-  `test/0` pass, and every starter parses, on real `prlg`.
+- **Semantic** (runs the compiler): every reference solution makes its hidden
+  `test/0` pass, and every starter parses, by compiling each with real `plgc`.
 
-The semantic tests require `prlg` on your `PATH` — which you already have if
-you can run the exercises.
+The semantic tests require `plgc` (and `clang`) on your `PATH` — which you
+already have if you can run the exercises.
 
 CI runs on **Forgejo Actions** ([`.forgejo/workflows/ci-linux.yml`](.forgejo/workflows/ci-linux.yml))
-on pull requests to `main`. It installs a pinned `patch-prolog` (so `prlg` is
-available for the semantic tests), then calls `just ci`. The Rust toolchain is
-pinned in [`rust-toolchain.toml`](rust-toolchain.toml), which must match the
-`navicore-rust` runner image.
+on pull requests to `main`. It provisions `plgc` (so the semantic tests can
+compile), then calls `just ci`. The Rust toolchain is pinned in
+[`rust-toolchain.toml`](rust-toolchain.toml), which must match the
+`navicore-rust` runner image (which also provides `clang`).
 
 ## Reporting issues
 
 If an exercise feels unfair, the hint is wrong, or you've discovered an engine gap (loglings refuses to accept your obviously-correct answer because the engine can't parse it), please open an issue at:
 
 - Curriculum/runner issues: [loglings issues](https://git.navicore.tech/navicore/loglings/issues)
-- Engine bugs: [patch-prolog issues](https://git.navicore.tech/navicore/patch-prolog/issues)
+- Compiler bugs: [patch-prolog2 issues](https://git.navicore.tech/navicore/patch-prolog2/issues)
 
 ## License
 
