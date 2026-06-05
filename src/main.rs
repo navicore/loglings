@@ -322,16 +322,43 @@ fn watch(exercises: &[Exercise]) {
     })
     .expect("install ctrl-c handler");
 
-    // Track what we last showed the user so we don't re-print on every save.
-    // `last_name == None` means we haven't shown anything yet (force first
-    // render); `last_name == Some("")` is the sentinel for "all done."
-    let mut last_name: Option<String> = None;
-    let mut last_status: Option<Status> = None;
-    refresh(exercises, &mut last_name, &mut last_status);
+    // `cursor` is the exercise the user is on. On each save we re-check ONLY
+    // this one — exercises the user has already completed are never re-checked.
+    // (The old code re-ran the checker for every finished exercise on every
+    // save; harmless with an interpreter, but with a compiler it spawned a
+    // storm of builds that leaked gigabytes of temp dirs.) One forward scan at
+    // startup lands the user where they left off, and `last_status` suppresses
+    // re-printing an unchanged frame.
+    let (mut cursor, mut last_status) = land(exercises, 0);
+    let mut last_sig = cursor_sig(exercises, cursor);
 
     while !interrupted.load(std::sync::atomic::Ordering::SeqCst) {
         match rx.recv_timeout(Duration::from_millis(250)) {
-            Ok(Ok(_events)) => refresh(exercises, &mut last_name, &mut last_status),
+            Ok(Ok(_events)) => {
+                if cursor >= exercises.len() {
+                    continue; // everything passes; nothing left to re-check
+                }
+                // Only react when the current file's content actually changed.
+                // Checking an exercise reads its file (here and inside the
+                // compiler), and reads emit their own filesystem events on the
+                // recursively-watched tree — react to those and the checker
+                // spins forever (this is what leaked gigabytes of build dirs).
+                // `metadata` reads no content, so polling it can't feed the loop.
+                let sig = cursor_sig(exercises, cursor);
+                if sig == last_sig {
+                    continue;
+                }
+                last_sig = sig;
+                let status = exercises[cursor].status();
+                if matches!(status, Status::Done) {
+                    println!("  {} {}", "✓".green(), exercises[cursor].name.cyan());
+                    (cursor, last_status) = land(exercises, cursor + 1);
+                    last_sig = cursor_sig(exercises, cursor);
+                } else if last_status.as_ref() != Some(&status) {
+                    report(&exercises[cursor], &status);
+                    last_status = Some(status);
+                }
+            }
             Ok(Err(error)) => eprintln!("watcher: {error:?}"),
             Err(std::sync::mpsc::RecvTimeoutError::Timeout) => continue,
             Err(std::sync::mpsc::RecvTimeoutError::Disconnected) => break,
@@ -339,45 +366,29 @@ fn watch(exercises: &[Exercise]) {
     }
 }
 
-/// Render the watch frame only if something actually changed. Announces the
-/// previous exercise as `✓ passed` when we cross from it to the next one.
-fn refresh(
-    exercises: &[Exercise],
-    last_name: &mut Option<String>,
-    last_status: &mut Option<Status>,
-) {
-    let Some(ex) = current(exercises) else {
-        if last_name.as_deref() != Some("") {
-            if let Some(prev) = last_name.as_deref()
-                && !prev.is_empty()
-            {
-                println!("  {} {}", "✓".green(), prev.cyan());
-            }
-            println!("\n{}", "All exercises pass — you're done!".green().bold());
-            *last_name = Some(String::new());
-            *last_status = None;
+/// Change signature (mtime + length) of the exercise at `cursor`, or `None`
+/// when there is no current exercise or its metadata is unreadable. Uses
+/// `metadata` only — it reads no file content, so polling it never emits the
+/// access events that would otherwise re-trigger the watcher.
+fn cursor_sig(exercises: &[Exercise], cursor: usize) -> Option<(std::time::SystemTime, u64)> {
+    let meta = std::fs::metadata(&exercises.get(cursor)?.path).ok()?;
+    Some((meta.modified().ok()?, meta.len()))
+}
+
+/// Scan forward from `from` to the first not-yet-`Done` exercise, print its
+/// frame, and return `(index, Some(status))`. Each exercise's status is
+/// computed at most once. When everything from `from` on already passes, print
+/// the all-done banner and return `(exercises.len(), None)`.
+fn land(exercises: &[Exercise], from: usize) -> (usize, Option<Status>) {
+    for (i, ex) in exercises.iter().enumerate().skip(from) {
+        let status = ex.status();
+        if !matches!(status, Status::Done) {
+            report(ex, &status);
+            return (i, Some(status));
         }
-        return;
-    };
-
-    let status = ex.status();
-    let same_name = last_name.as_deref() == Some(ex.name.as_str());
-    let same_status = last_status.as_ref() == Some(&status);
-    if same_name && same_status {
-        return;
     }
-
-    // We moved past the previous exercise (it transitioned to Done).
-    if let Some(prev) = last_name.as_deref()
-        && !prev.is_empty()
-        && prev != ex.name
-    {
-        println!("  {} {}", "✓".green(), prev.cyan());
-    }
-
-    report(ex, &status);
-    *last_name = Some(ex.name.clone());
-    *last_status = Some(status);
+    println!("\n{}", "All exercises pass — you're done!".green().bold());
+    (exercises.len(), None)
 }
 
 fn report(ex: &Exercise, status: &Status) {

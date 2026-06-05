@@ -26,8 +26,14 @@ hints, solutions — ships inside the loglings binary.
   `plgc run <file> --query <goal> --format text` and maps the compiler's
   exit-code contract (`0` no solutions / `1` solutions / `2` parse error /
   `3` runtime error) onto a `CheckOutcome`.
-- **Watch loop** via `notify` + a 200 ms debouncer; re-renders only when the
-  current exercise or its status actually changes.
+- **Watch loop** via `notify` + a 200 ms debouncer. It tracks a cursor and
+  re-checks **only the current exercise** (never already-completed ones), and
+  only when that file's content signature (mtime + size) actually changed.
+  Both guards are load-bearing: `status()` and the compiler *read* the `.pl`
+  file, and reads emit their own filesystem events on the recursively-watched
+  tree — reacting to those (or re-checking every completed exercise) spins the
+  compiler in a tight loop. Use `metadata`, never a content read, to detect
+  change.
 
 ## Building Blocks
 
