@@ -51,11 +51,10 @@ All six new exercises are verified passing on the installed engine.
 
 ## Notes
 
-- **CI provisions `plgc` via git**, rev-pinned: `cargo install --git
-  …/patch-prolog2.git plg-compiler --rev <sha> --locked`. crates.io publishing
-  is deliberately deferred until patch-prolog2 matures; when it lands, switch
-  the workflow to `cargo install plg-compiler --version X`. Bump the pinned rev
-  deliberately as the compiler evolves.
+- **CI provisions `plgc` via git, tracking patch-prolog2 `main`**:
+  `cargo install --git …/patch-prolog2.git --branch main plg-compiler --locked`.
+  crates.io publishing is deliberately deferred until patch-prolog2 matures;
+  when it lands, switch the workflow to `cargo install plg-compiler --version X`.
 
 ## Future
 

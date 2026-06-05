@@ -50,12 +50,12 @@ jobs:
     # The curriculum tests (tests/curriculum.rs) compile every exercise/solution
     # with `plgc`, so it must be on PATH. patch-prolog2 is not on crates.io yet
     # (deliberate — it'll publish once the system matures), so install from git,
-    # pinned to a rev for reproducible CI; bump deliberately. plgc links each
-    # compiled exercise with clang, already in the runner image.
-    - name: Install plgc compiler (patch-prolog2, git rev-pinned)
+    # tracking main. plgc links each compiled exercise with clang, already in
+    # the runner image.
+    - name: Install plgc compiler (patch-prolog2 main)
       run: |
         cargo install --git https://git.navicore.tech/navicore/patch-prolog2.git \
-          plg-compiler --rev 2e5f8ba --locked --force
+          --branch main plg-compiler --locked --force
         plgc --version
 
     - name: Run CI checks (just ci)
