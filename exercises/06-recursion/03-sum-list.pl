@@ -1,10 +1,10 @@
 % Exercise: sum a list
 %
-% Recursion meets lists. The new piece here is *destructuring* a list
-% in a rule head: `[H|T]` matches any non-empty list, binding H to the
-% head (first element) and T to the rest.
-%
-%     first_element([H|_], H).      % match the head, ignore the tail
+% Recursion meets lists. You already know both halves: `[H|T]` takes a
+% list apart (chapter 04), and base-case-plus-recursive-step walks a
+% structure down to nothing (this chapter). Put them together: the tail
+% T — itself a list, only shorter — is exactly what the recursive call
+% wants.
 %
 % Your task: define `sum_list(List, Total)` to be true when Total is
 % the sum of every number in List. Two clauses:
