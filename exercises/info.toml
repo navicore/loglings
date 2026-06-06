@@ -105,59 +105,83 @@ path = "exercises/03-operators/03-precedence-assoc.pl"
 mode = "test"
 
 # ============================================================
-# 04-comparison: <, >, =<, >=, =:=, =\=
+# 04-lists: destructuring with [H|T]
+# ============================================================
+
+[[exercises]]
+name = "01-head-and-tail"
+path = "exercises/04-lists/01-head-and-tail.pl"
+mode = "test"
+
+[[exercises]]
+name = "02-exact-length"
+path = "exercises/04-lists/02-exact-length.pl"
+mode = "test"
+
+[[exercises]]
+name = "03-skip-ahead"
+path = "exercises/04-lists/03-skip-ahead.pl"
+mode = "test"
+
+[[exercises]]
+name = "04-rebuild"
+path = "exercises/04-lists/04-rebuild.pl"
+mode = "test"
+
+# ============================================================
+# 05-comparison: <, >, =<, >=, =:=, =\=
 # ============================================================
 
 [[exercises]]
 name = "01-less-than"
-path = "exercises/04-comparison/01-less-than.pl"
+path = "exercises/05-comparison/01-less-than.pl"
 mode = "test"
 
 [[exercises]]
 name = "02-greater-than"
-path = "exercises/04-comparison/02-greater-than.pl"
+path = "exercises/05-comparison/02-greater-than.pl"
 mode = "test"
 
 [[exercises]]
 name = "03-less-equal-greater-equal"
-path = "exercises/04-comparison/03-less-equal-greater-equal.pl"
+path = "exercises/05-comparison/03-less-equal-greater-equal.pl"
 mode = "test"
 
 [[exercises]]
 name = "04-arith-equal"
-path = "exercises/04-comparison/04-arith-equal.pl"
+path = "exercises/05-comparison/04-arith-equal.pl"
 mode = "test"
 
 [[exercises]]
 name = "05-arith-not-equal"
-path = "exercises/04-comparison/05-arith-not-equal.pl"
+path = "exercises/05-comparison/05-arith-not-equal.pl"
 mode = "test"
 
 # ============================================================
-# 05-recursion: base case + recursive step
+# 06-recursion: base case + recursive step
 # ============================================================
 
 [[exercises]]
 name = "01-countdown"
-path = "exercises/05-recursion/01-countdown.pl"
+path = "exercises/06-recursion/01-countdown.pl"
 mode = "test"
 
 [[exercises]]
 name = "02-factorial"
-path = "exercises/05-recursion/02-factorial.pl"
+path = "exercises/06-recursion/02-factorial.pl"
 mode = "test"
 
 [[exercises]]
 name = "03-sum-list"
-path = "exercises/05-recursion/03-sum-list.pl"
+path = "exercises/06-recursion/03-sum-list.pl"
 mode = "test"
 
 [[exercises]]
 name = "04-my-length"
-path = "exercises/05-recursion/04-my-length.pl"
+path = "exercises/06-recursion/04-my-length.pl"
 mode = "test"
 
 [[exercises]]
 name = "05-double-each"
-path = "exercises/05-recursion/05-double-each.pl"
+path = "exercises/06-recursion/05-double-each.pl"
 mode = "test"

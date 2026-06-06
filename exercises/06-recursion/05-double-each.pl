@@ -9,7 +9,8 @@
 %     double_each([1, 2, 3], [2, 4, 6]).
 %
 % The trick: the recursive step's HEAD already builds the output cons
-% cell. Two clauses:
+% cell — the same heads-build-too move as `swap_first_two` in chapter
+% 04, now applied at every step. Two clauses:
 %
 %     double_each([], []).
 %     double_each([H|T], [H2|T2]) :-

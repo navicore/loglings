@@ -74,8 +74,9 @@ loglings reset 01-fact
 | **01-arithmetic** | `is/2` and the four operators (`+ - * //`) |
 | **02-terms** | Atoms vs numbers, variables & unification, compound terms, arity (`name/N`) |
 | **03-operators** | Operators as terms (`=..`), prefix vs infix, precedence & associativity |
-| **04-comparison** | `<` `>` `=<` `>=` `=:=` `=\=` |
-| **05-recursion** | Base case + recursive step: countdown, factorial, sum, length, map |
+| **04-lists** | Destructuring: `[H\|T]`, exact shapes, skipping with `_`, heads build too |
+| **05-comparison** | `<` `>` `=<` `>=` `=:=` `=\=` |
+| **06-recursion** | Base case + recursive step: countdown, factorial, sum, length, map |
 
 More sections will be added as the curriculum grows. The engine is still gaining features; expect new sections to follow new engine capabilities.
 

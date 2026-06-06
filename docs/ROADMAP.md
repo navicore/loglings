@@ -12,29 +12,23 @@ binary name and the `--goal`→`--query` flag rename. CLI commands implemented: 
 `update` (+ `--dry-run`, `--force`), `list`, `verify`, `hint`, `next`, `reset`,
 and the default watch loop.
 
-Curriculum on disk (5 exercises each):
+Curriculum on disk (31 exercises):
 
 | Section | Topics |
 |---|---|
-| `00-intro` | facts, multiple facts, `findall/3`, rules, lists |
-| `01-arithmetic` | `is/2` and the four operators |
-| `02-comparison` | `<` `>` `=<` `>=` `=:=` `=\=` |
-| `03-recursion` | base case + recursive step |
+| `00-intro` (5) | facts, multiple facts, `findall/3`, rules, lists |
+| `01-arithmetic` (5) | `is/2` and the four operators |
+| `02-terms` (4) | atoms, numbers, variables/unification, compound terms, arity |
+| `03-operators` (3) | operators as terms, prefix/infix, precedence/associativity |
+| `04-lists` (4) | destructuring: `[H\|T]`, exact shapes, `_`, heads build too |
+| `05-comparison` (5) | `<` `>` `=<` `>=` `=:=` `=\=` |
+| `06-recursion` (5) | base case + recursive step |
 
-## In progress
-
-Restructure to teach the term model *before* comparison (see
-[`design/terms-and-operators-chapters.md`](design/terms-and-operators-chapters.md)):
-
-- Insert **`02-terms`** (4 exercises: atoms/numbers, variables/unification,
-  compound terms, arity) and **`03-operators`** (2 exercises: operators-as-terms,
-  precedence/associativity).
-- Renumber `02-comparison` → `04-comparison`, `03-recursion` → `05-recursion`
-  (content unchanged; move all three trees + update `info.toml` paths).
-- **Strip the `## Solution sketch` block from every hint** — hints are nudges;
-  full answers live in `solutions/`.
-
-All six new exercises are verified passing on the installed engine.
+The "term model" arc (`02-terms` → `03-operators` → `04-lists`) was added
+after field feedback; design history in
+[`design/terms-and-operators-chapters.md`](design/terms-and-operators-chapters.md)
+and [`design/lists-chapter.md`](design/lists-chapter.md). Hints are nudges
+only; full answers live in `solutions/`.
 
 ## External dependencies
 
