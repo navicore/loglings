@@ -157,6 +157,11 @@ name = "05-arith-not-equal"
 path = "exercises/05-comparison/05-arith-not-equal.pl"
 mode = "test"
 
+[[exercises]]
+name = "06-choosing"
+path = "exercises/05-comparison/06-choosing.pl"
+mode = "test"
+
 # ============================================================
 # 06-recursion: base case + recursive step
 # ============================================================
