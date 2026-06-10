@@ -14,6 +14,13 @@
 % The right-hand side must be fully ground (all variables bound to
 % numbers) — `is/2` is the bridge between Prolog terms and arithmetic.
 %
+% Heads-up for later: `is` is one of a trio that look alike but differ
+% on two axes — does the operator *evaluate* arithmetic, and does it
+% *bind* a variable? `is` does BOTH: it evaluates the right side and
+% binds the left. You'll soon meet `=` (binds, never evaluates) and
+% `=:=` (evaluates, never binds); chapter 05 lays all three out in one
+% grid. For now: reach for `is` whenever you need a computed number.
+%
 % Your task: define a rule `answer(X)` that uses `is/2` to bind X to
 % the sum of 100 and 23.
 %

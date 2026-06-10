@@ -14,6 +14,21 @@
 %     2 * 3 =:= 6.      % succeeds
 %     5 =:= 6.          % fails
 %
+% Here is the whole picture at last. Two independent questions decide
+% which operator you want:
+%
+%   - Does it EVALUATE arithmetic (turn `2 + 3` into `5`)?
+%   - Does it BIND a variable (give an unbound variable a value)?
+%
+%                  | doesn't evaluate   | evaluates arithmetic
+%     -------------+--------------------+----------------------
+%     binds a var  | =   (unify)        | is  (eval, then bind)
+%     just tests   | ==  (identity)     | =:= (eval, then compare)
+%
+% `is` is the only one that does BOTH. `=:=` evaluates but never binds —
+% both sides must already be computable. `=` binds but never evaluates.
+% (`==` is the fourth corner — you'll meet it in chapter 07.)
+%
 % Your task: define `same_value(A, B)` true when A and B are equal as
 % *numbers* (after evaluation). Don't use `=` — use `=:=`.
 %
