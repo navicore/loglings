@@ -190,3 +190,32 @@ mode = "test"
 name = "05-double-each"
 path = "exercises/06-recursion/05-double-each.pl"
 mode = "test"
+
+# ============================================================
+# 07-equality: ==, \==, @<, compare/3, sort/2, msort/2
+# ============================================================
+
+[[exercises]]
+name = "01-identity"
+path = "exercises/07-equality/01-identity.pl"
+mode = "test"
+
+[[exercises]]
+name = "02-not-identical"
+path = "exercises/07-equality/02-not-identical.pl"
+mode = "test"
+
+[[exercises]]
+name = "03-standard-order"
+path = "exercises/07-equality/03-standard-order.pl"
+mode = "test"
+
+[[exercises]]
+name = "04-compare"
+path = "exercises/07-equality/04-compare.pl"
+mode = "test"
+
+[[exercises]]
+name = "05-sorting"
+path = "exercises/07-equality/05-sorting.pl"
+mode = "test"
