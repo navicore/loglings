@@ -12,7 +12,7 @@ binary name and the `--goal`→`--query` flag rename. CLI commands implemented: 
 `update` (+ `--dry-run`, `--force`), `list`, `verify`, `hint`, `next`, `reset`,
 and the default watch loop.
 
-Curriculum on disk (31 exercises):
+Curriculum on disk (37 exercises):
 
 | Section | Topics |
 |---|---|
@@ -21,13 +21,18 @@ Curriculum on disk (31 exercises):
 | `02-terms` (4) | atoms, numbers, variables/unification, compound terms, arity |
 | `03-operators` (3) | operators as terms, prefix/infix, precedence/associativity |
 | `04-lists` (4) | destructuring: `[H\|T]`, exact shapes, `_`, heads build too |
-| `05-comparison` (5) | `<` `>` `=<` `>=` `=:=` `=\=` |
+| `05-comparison` (6) | `<` `>` `=<` `>=` `=:=` `=\=`, and choosing `is` vs `=` vs `=:=` |
 | `06-recursion` (5) | base case + recursive step |
+| `07-equality` (5) | `==` `\==`, standard order of terms (`@<`, `compare/3`), `sort/2` vs `msort/2` |
 
 The "term model" arc (`02-terms` → `03-operators` → `04-lists`) was added
 after field feedback; design history in
 [`design/terms-and-operators-chapters.md`](design/terms-and-operators-chapters.md)
-and [`design/lists-chapter.md`](design/lists-chapter.md). Hints are nudges
+and [`design/lists-chapter.md`](design/lists-chapter.md). The full coverage
+plan toward exercising all of `plgc` lives in
+[`design/curriculum-expansion.md`](design/curriculum-expansion.md); `05`'s
+`is`/`=`/`=:=` capstone and the `07-equality` chapter (which closes the
+"binds vs tests" grid with `==`) are the first steps. Hints are nudges
 only; full answers live in `solutions/`.
 
 ## External dependencies
