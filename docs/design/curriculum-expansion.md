@@ -45,7 +45,7 @@ boundaries chapter caps the set and directly serves the feedback mission.
 | arithmetic comparison | `< > =< >= =:= =\=` | 05 ✓ |
 | recursion | base + step | 06 ✓ |
 | **term equality & ordering** | `== \== @< @> @=< @>= compare/3 sort/2 msort/2` | **07** ✓ |
-| **control & negation** | `; ( -> ; ) once/1 \+/1 true fail` | **08** |
+| **control & negation** | `; ( -> ; ) once/1 \+/1 true fail` | **08** ✓ |
 | **cut** | `!` (green/red, ISO transparency in `;`/`->`) | **09** |
 | **list library** | `append/3 member/2 reverse/2 length/2 last/2 between/3` | **10** |
 | **meta & term construction** | `functor/3 arg/3 =../2 copy_term/2 call/N` | **11** |

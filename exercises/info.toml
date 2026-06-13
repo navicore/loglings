@@ -219,3 +219,32 @@ mode = "test"
 name = "05-sorting"
 path = "exercises/07-equality/05-sorting.pl"
 mode = "test"
+
+# ============================================================
+# 08-control: ;, ( -> ; ), \+, once/1, true/fail
+# ============================================================
+
+[[exercises]]
+name = "01-disjunction"
+path = "exercises/08-control/01-disjunction.pl"
+mode = "test"
+
+[[exercises]]
+name = "02-if-then-else"
+path = "exercises/08-control/02-if-then-else.pl"
+mode = "test"
+
+[[exercises]]
+name = "03-negation"
+path = "exercises/08-control/03-negation.pl"
+mode = "test"
+
+[[exercises]]
+name = "04-once"
+path = "exercises/08-control/04-once.pl"
+mode = "test"
+
+[[exercises]]
+name = "05-traffic"
+path = "exercises/08-control/05-traffic.pl"
+mode = "test"
