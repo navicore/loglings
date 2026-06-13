@@ -78,6 +78,7 @@ loglings reset 01-fact
 | **05-comparison** | `<` `>` `=<` `>=` `=:=` `=\=`, and choosing `is` vs `=` vs `=:=` |
 | **06-recursion** | Base case + recursive step: countdown, factorial, sum, length, map |
 | **07-equality** | Term identity (`==` `\==`), standard order of terms (`@<`, `compare/3`), `sort/2` vs `msort/2` |
+| **08-control** | Disjunction (`;`), if-then-else (`-> ;`), negation as failure (`\+`), `once/1` |
 
 More sections will be added as the curriculum grows. The engine is still gaining features; expect new sections to follow new engine capabilities.
 
