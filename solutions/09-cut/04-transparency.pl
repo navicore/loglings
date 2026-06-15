@@ -1,13 +1,13 @@
 % Solution: 04-transparency
 
-m(1).
-m(2).
-m(3).
+reading(7).
+reading(12).
+reading(20).
 
-t(X) :- ( m(X), X > 1, ! ; X = fallback ).
+first_high(R) :- ( reading(R), R > 10, ! ; R = none ).
 
 % Do not edit below this line
 
 test :-
-    findall(X, t(X), L),
-    L == [2].
+    findall(R, first_high(R), L),
+    L == [12].

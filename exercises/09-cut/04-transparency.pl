@@ -21,24 +21,29 @@
 % lesson: the cut is NOT confined to its own branch. It reaches out and
 % commits the entire clause.)
 %
-% Your task: define `t(X)` exactly as shown above — the disjunction with
-% a cut in the first branch and `X = fallback` in the second — so that it
-% produces only `X = 2`.
+% Now put it to work on different data. Above the fold are three
+% `reading/1` facts. Define `first_high(R)` that finds the FIRST reading
+% greater than 10 and commits to it — and if no reading qualifies, falls
+% back to `R = none`. Build it as a single clause with one disjunction:
+% generate-and-test-and-cut in the first branch, the `none` fallback in
+% the second. Because the cut is transparent, the moment a reading passes
+% it commits and the fallback is dropped — so `findall` returns exactly
+% one answer.
 %
 % Delete the marker when done.
 
 % I AM NOT DONE
 
-m(1).
-m(2).
-m(3).
+reading(7).
+reading(12).
+reading(20).
 
-% Define t/1 here.
+% Define first_high/1 here.
 
 
 
 % Do not edit below this line
 
 test :-
-    findall(X, t(X), L),
-    L == [2].
+    findall(R, first_high(R), L),
+    L == [12].
