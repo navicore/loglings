@@ -248,3 +248,32 @@ mode = "test"
 name = "05-traffic"
 path = "exercises/08-control/05-traffic.pl"
 mode = "test"
+
+# ============================================================
+# 09-cut: !, commit-or-default, cut-fail, transparency in ;, cascades
+# ============================================================
+
+[[exercises]]
+name = "01-commit"
+path = "exercises/09-cut/01-commit.pl"
+mode = "test"
+
+[[exercises]]
+name = "02-default"
+path = "exercises/09-cut/02-default.pl"
+mode = "test"
+
+[[exercises]]
+name = "03-cut-fail"
+path = "exercises/09-cut/03-cut-fail.pl"
+mode = "test"
+
+[[exercises]]
+name = "04-transparency"
+path = "exercises/09-cut/04-transparency.pl"
+mode = "test"
+
+[[exercises]]
+name = "05-grade"
+path = "exercises/09-cut/05-grade.pl"
+mode = "test"
