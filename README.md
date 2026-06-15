@@ -79,6 +79,7 @@ loglings reset 01-fact
 | **06-recursion** | Base case + recursive step: countdown, factorial, sum, length, map |
 | **07-equality** | Term identity (`==` `\==`), standard order of terms (`@<`, `compare/3`), `sort/2` vs `msort/2` |
 | **08-control** | Disjunction (`;`), if-then-else (`-> ;`), negation as failure (`\+`), `once/1` |
+| **09-cut** | The cut (`!`): committing, commit-or-default (green vs load-bearing), the cut-fail idiom, transparency in `;` |
 
 More sections will be added as the curriculum grows. The engine is still gaining features; expect new sections to follow new engine capabilities.
 
