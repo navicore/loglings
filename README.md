@@ -80,6 +80,7 @@ loglings reset 01-fact
 | **07-equality** | Term identity (`==` `\==`), standard order of terms (`@<`, `compare/3`), `sort/2` vs `msort/2` |
 | **08-control** | Disjunction (`;`), if-then-else (`-> ;`), negation as failure (`\+`), `once/1` |
 | **09-cut** | The cut (`!`): committing, commit-or-default (green vs load-bearing), the cut-fail idiom, transparency in `;` |
+| **10-list-library** | `member/2` (test & generate), `append/3` (join & split — multi-mode), `reverse/2`, `length/2`, `last/2`, `between/3` |
 
 More sections will be added as the curriculum grows. The engine is still gaining features; expect new sections to follow new engine capabilities.
 

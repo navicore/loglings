@@ -12,7 +12,7 @@ binary name and the `--goal`→`--query` flag rename. CLI commands implemented: 
 `update` (+ `--dry-run`, `--force`), `list`, `verify`, `hint`, `next`, `reset`,
 and the default watch loop.
 
-Curriculum on disk (47 exercises):
+Curriculum on disk (53 exercises):
 
 | Section | Topics |
 |---|---|
@@ -26,6 +26,7 @@ Curriculum on disk (47 exercises):
 | `07-equality` (5) | `==` `\==`, standard order of terms (`@<`, `compare/3`), `sort/2` vs `msort/2` |
 | `08-control` (5) | disjunction `;`, if-then-else `-> ;`, negation `\+`, `once/1` |
 | `09-cut` (5) | the cut `!`, commit-or-default (green vs load-bearing), the cut-fail idiom, transparency in `;` |
+| `10-list-library` (6) | `member/2`, `append/3` (join & split), `reverse/2`, `length/2`, `last/2`, `between/3` |
 
 The "term model" arc (`02-terms` → `03-operators` → `04-lists`) was added
 after field feedback; design history in

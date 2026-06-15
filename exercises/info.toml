@@ -277,3 +277,37 @@ mode = "test"
 name = "05-grade"
 path = "exercises/09-cut/05-grade.pl"
 mode = "test"
+
+# ============================================================
+# 10-list-library: member/2, append/3, reverse/2, length/2, last/2, between/3
+# ============================================================
+
+[[exercises]]
+name = "01-member"
+path = "exercises/10-list-library/01-member.pl"
+mode = "test"
+
+[[exercises]]
+name = "02-append"
+path = "exercises/10-list-library/02-append.pl"
+mode = "test"
+
+[[exercises]]
+name = "03-split"
+path = "exercises/10-list-library/03-split.pl"
+mode = "test"
+
+[[exercises]]
+name = "04-reverse"
+path = "exercises/10-list-library/04-reverse.pl"
+mode = "test"
+
+[[exercises]]
+name = "05-describe"
+path = "exercises/10-list-library/05-describe.pl"
+mode = "test"
+
+[[exercises]]
+name = "06-between"
+path = "exercises/10-list-library/06-between.pl"
+mode = "test"
