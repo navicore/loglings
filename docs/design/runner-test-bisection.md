@@ -1,6 +1,11 @@
 # Design: blame the failing check in a test/0 conjunction
 
-Status: proposed (2026-06-19). Working doc.
+Status: implemented (2026-06-19). Working doc.
+
+Landed in `src/bisect.rs` (pure parsing + binary search, unit-tested) and
+`runner::bisect_failure` (the `plgc` probe loop); `exercise.rs` renders the
+blame line. Verified end-to-end: the missing-`else` traffic bug reports
+`check 3/9 (line 44): action(green, go)`.
 
 ## Intent
 
