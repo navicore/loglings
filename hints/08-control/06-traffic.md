@@ -1,4 +1,4 @@
-# Hint — 05-traffic
+# Hint — 06-traffic
 
 Match each task to the construct whose shape it fits:
 

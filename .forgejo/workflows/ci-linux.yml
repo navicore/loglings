@@ -2,7 +2,7 @@ name: CI - Linux
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 # This workflow ONLY calls `just` commands. The justfile is the source
@@ -21,42 +21,41 @@ jobs:
     runs-on: navicore-rust
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v6
+      - name: Checkout code
+        uses: actions/checkout@v6
 
-    - name: Verify toolchain
-      run: |
-        rustc --version
-        cargo --version
-        cargo clippy --version
-        clang --version
-        just --version
+      - name: Verify toolchain
+        run: |
+          rustc --version
+          cargo --version
+          cargo clippy --version
+          clang --version
+          just --version
 
-    - name: Cache cargo registry
-      uses: actions/cache@v5
-      with:
-        path: ~/.cargo/registry
-        key: linux-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+      - name: Cache cargo registry
+        uses: actions/cache@v5
+        with:
+          path: ~/.cargo/registry
+          key: linux-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
 
-    - name: Cache cargo index
-      uses: actions/cache@v5
-      with:
-        path: ~/.cargo/git
-        key: linux-cargo-git-${{ hashFiles('**/Cargo.lock') }}
+      - name: Cache cargo index
+        uses: actions/cache@v5
+        with:
+          path: ~/.cargo/git
+          key: linux-cargo-git-${{ hashFiles('**/Cargo.lock') }}
 
-    # NOTE: target/ is intentionally NOT cached. Stale compiled test
-    # binaries can cause false failures when language semantics change.
+      # NOTE: target/ is intentionally NOT cached. Stale compiled test
+      # binaries can cause false failures when language semantics change.
 
-    # The curriculum tests (tests/curriculum.rs) compile every exercise/solution
-    # with `plgc`, so it must be on PATH. patch-prolog2 is not on crates.io yet
-    # (deliberate — it'll publish once the system matures), so install from git,
-    # tracking main. plgc links each compiled exercise with clang, already in
-    # the runner image.
-    - name: Install plgc compiler (patch-prolog2 main)
-      run: |
-        cargo install --git https://git.navicore.tech/navicore/patch-prolog2.git \
-          --branch main plg-compiler --locked --force
-        plgc --version
+      # The curriculum tests (tests/curriculum.rs) compile every exercise/solution
+      # with `plgc`, so it must be on PATH. patch-prolog2 is not on crates.io yet
+      # (deliberate — it'll publish once the system matures), so install from git,
+      # tracking main. plgc links each compiled exercise with clang, already in
+      # the runner image.
+      - name: Install plgc compiler (patch-prolog main)
+        run: |
+          cargo install patch-prolog-compiler
+          plgc --version
 
-    - name: Run CI checks (just ci)
-      run: just ci
+      - name: Run CI checks (just ci)
+        run: just ci

@@ -47,7 +47,7 @@ boundaries chapter caps the set and directly serves the feedback mission.
 | **term equality & ordering** | `== \== @< @> @=< @>= compare/3 sort/2 msort/2` | **07** ✓ |
 | **control & negation** | `; ( -> ; ) once/1 \+/1 true fail` | **08** ✓ |
 | **cut** | `!` (green/red, ISO transparency in `;`/`->`) | **09** ✓ |
-| **list library** | `append/3 member/2 reverse/2 length/2 last/2 between/3` | **10** |
+| **list library** | `append/3 member/2 reverse/2 length/2 last/2 between/3` | **10** ✓ |
 | **meta & term construction** | `functor/3 arg/3 =../2 copy_term/2 call/N` | **11** |
 | **type-test guards** | `var nonvar atom number integer float compound is_list` | **12** |
 | **arithmetic depth** | `/ // mod rem div ** ^ << >> /\ \/ xor \ succ/2 plus/3` | **13** |
@@ -63,7 +63,12 @@ Notes on the high-value, currently-dark chapters:
 - **08–09** are core Prolog and entirely absent today; cut earns its own
   chapter because `plgc` documents a specific ISO transparency semantics
   (cut in `;`/`->` cuts the whole clause — a v1 divergence) worth pinning
-  with a test.
+  with a test. **08** also carries a student-authored `findall/3` rung
+  (`05-collect`): `findall` is introduced at `00-03` but then only ever
+  appears as hidden `test/0` scaffolding until it becomes load-bearing in
+  the learner's own code at `10-06`. The rung closes that
+  introduced-then-dormant seam and frames `findall` as the "all" of the
+  chapter's none/one/all solution-count family (`\+` / `once` / `findall`).
 - **10** teaches the library learners hand-rolled in 06, *plus* `append/3`'s
   relational multi-mode power (one predicate, many modes) — the "aha" that
   separates Prolog from functional recursion.
