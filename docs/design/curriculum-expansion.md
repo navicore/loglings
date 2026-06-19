@@ -63,7 +63,12 @@ Notes on the high-value, currently-dark chapters:
 - **08–09** are core Prolog and entirely absent today; cut earns its own
   chapter because `plgc` documents a specific ISO transparency semantics
   (cut in `;`/`->` cuts the whole clause — a v1 divergence) worth pinning
-  with a test.
+  with a test. **08** also carries a student-authored `findall/3` rung
+  (`05-collect`): `findall` is introduced at `00-03` but then only ever
+  appears as hidden `test/0` scaffolding until it becomes load-bearing in
+  the learner's own code at `10-06`. The rung closes that
+  introduced-then-dormant seam and frames `findall` as the "all" of the
+  chapter's none/one/all solution-count family (`\+` / `once` / `findall`).
 - **10** teaches the library learners hand-rolled in 06, *plus* `append/3`'s
   relational multi-mode power (one predicate, many modes) — the "aha" that
   separates Prolog from functional recursion.

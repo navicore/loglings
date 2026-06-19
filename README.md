@@ -78,7 +78,7 @@ loglings reset 01-fact
 | **05-comparison** | `<` `>` `=<` `>=` `=:=` `=\=`, and choosing `is` vs `=` vs `=:=` |
 | **06-recursion** | Base case + recursive step: countdown, factorial, sum, length, map |
 | **07-equality** | Term identity (`==` `\==`), standard order of terms (`@<`, `compare/3`), `sort/2` vs `msort/2` |
-| **08-control** | Disjunction (`;`), if-then-else (`-> ;`), negation as failure (`\+`), `once/1` |
+| **08-control** | Disjunction (`;`), if-then-else (`-> ;`), and the "how many solutions?" trio: negation (`\+`, none), `once/1` (one), `findall/3` (all) |
 | **09-cut** | The cut (`!`): committing, commit-or-default (green vs load-bearing), the cut-fail idiom, transparency in `;` |
 | **10-list-library** | `member/2` (test & generate), `append/3` (join & split — multi-mode), `reverse/2`, `length/2`, `last/2`, `between/3` |
 

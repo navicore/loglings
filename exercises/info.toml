@@ -221,7 +221,7 @@ path = "exercises/07-equality/05-sorting.pl"
 mode = "test"
 
 # ============================================================
-# 08-control: ;, ( -> ; ), \+, once/1, true/fail
+# 08-control: ;, ( -> ; ), \+, once/1, findall/3, true/fail
 # ============================================================
 
 [[exercises]]
@@ -245,8 +245,13 @@ path = "exercises/08-control/04-once.pl"
 mode = "test"
 
 [[exercises]]
-name = "05-traffic"
-path = "exercises/08-control/05-traffic.pl"
+name = "05-collect"
+path = "exercises/08-control/05-collect.pl"
+mode = "test"
+
+[[exercises]]
+name = "06-traffic"
+path = "exercises/08-control/06-traffic.pl"
 mode = "test"
 
 # ============================================================
