@@ -10,6 +10,7 @@
     clippy::case_sensitive_file_extension_comparisons
 )]
 
+mod bisect;
 mod exercise;
 mod runner;
 mod update;

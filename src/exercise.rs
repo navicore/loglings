@@ -72,7 +72,21 @@ impl Exercise {
         };
         match runner::check(&self.path, goal) {
             CheckOutcome::Passed => Status::Done,
-            CheckOutcome::Failed(msg) => Status::Failed(format!("Test failed:\n{msg}")),
+            CheckOutcome::Failed(msg) => {
+                // For test-mode failures, try to blame the first failing check
+                // in the `test/0` conjunction; fall back to the raw message.
+                let blame = match self.mode {
+                    ExerciseMode::Test => runner::bisect_failure(&self.path, &content),
+                    ExerciseMode::Parse => None,
+                };
+                match blame {
+                    Some(b) => Status::Failed(format!(
+                        "Test failed at check {}/{} (line {}):\n    {}",
+                        b.index, b.total, b.line, b.goal
+                    )),
+                    None => Status::Failed(format!("Test failed:\n{msg}")),
+                }
+            }
             CheckOutcome::ParseError(msg) => Status::Failed(format!("Parse error:\n{msg}")),
             CheckOutcome::RuntimeError(msg) => Status::Failed(format!("Runtime error:\n{msg}")),
             CheckOutcome::InvocationError(msg) => Status::Failed(msg),

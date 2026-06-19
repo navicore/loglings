@@ -44,7 +44,13 @@ hints, solutions — ships inside the loglings binary.
   (`NotDone` / `Done` / `Failed(msg)`), `ExerciseMode` (`Parse` / `Test`).
   `load()` parses `exercises/info.toml`; `status()` reads the on-disk file,
   checks for the marker, else calls `runner::check`.
-- `src/runner.rs` — the `plgc` subprocess seam and exit-code mapping.
+- `src/runner.rs` — the `plgc` subprocess seam and exit-code mapping. On a
+  failed `test/0` it also bisects the conjunction (`bisect_failure`) to blame the
+  first check with no solution, so the watcher names the failing line instead of
+  a bare `false.` (design: `design/runner-test-bisection.md`).
+- `src/bisect.rs` — pure parsing of the hidden `test :- ...` clause into its
+  top-level conjuncts plus the monotone binary search over cumulative prefixes
+  that finds the first failing one. No I/O; `runner` supplies the `plgc` probe.
 - `src/update.rs` — refreshes on-disk exercises from the embedded corpus
   without trampling in-progress work (`Create` / `Replace` / `ForceReplace` /
   `Preserve` / `AlreadyCurrent`).
