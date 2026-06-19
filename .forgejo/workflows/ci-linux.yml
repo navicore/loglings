@@ -54,8 +54,7 @@ jobs:
       # the runner image.
       - name: Install plgc compiler (patch-prolog main)
         run: |
-          cargo install --git https://git.navicore.tech/navicore/patch-prolog.git \
-            --branch main plg-compiler --locked --force
+          cargo install patch-prolog-compiler
           plgc --version
 
       - name: Run CI checks (just ci)
