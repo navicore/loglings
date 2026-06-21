@@ -316,3 +316,32 @@ mode = "test"
 name = "06-between"
 path = "exercises/10-list-library/06-between.pl"
 mode = "test"
+
+# ============================================================
+# 11-meta: =.. construct/rebuild, call/N, copy_term/2
+# ============================================================
+
+[[exercises]]
+name = "01-univ-build"
+path = "exercises/11-meta/01-univ-build.pl"
+mode = "test"
+
+[[exercises]]
+name = "02-retag"
+path = "exercises/11-meta/02-retag.pl"
+mode = "test"
+
+[[exercises]]
+name = "03-call"
+path = "exercises/11-meta/03-call.pl"
+mode = "test"
+
+[[exercises]]
+name = "04-copy-term"
+path = "exercises/11-meta/04-copy-term.pl"
+mode = "test"
+
+[[exercises]]
+name = "05-dispatch"
+path = "exercises/11-meta/05-dispatch.pl"
+mode = "test"
