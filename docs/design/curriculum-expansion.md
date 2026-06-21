@@ -72,15 +72,24 @@ Notes on the high-value, currently-dark chapters:
 - **10** teaches the library learners hand-rolled in 06, *plus* `append/3`'s
   relational multi-mode power (one predicate, many modes) — the "aha" that
   separates Prolog from functional recursion.
-- **11** teaches term *construction* (chapter 02 only did decomposition):
-  `=..` build-and-rebuild, the meta-call `call/N` with a predicate name as
-  data, `copy_term/2`, and a dynamic-dispatch capstone (`=..` + `call`).
-  **Deferred from 11:** `functor/3` in *construct* mode (`functor(T, f, 2)`)
-  is broken on `plgc` 0.1.0 — it shares one variable across all argument
-  slots (`functor(T, point, 2)` yields `point(_9, _9)`, not `point(_A, _B)`),
-  so `T = point(3, 4)` then fails. Filed as an engine boundary; `functor/3`
-  stays covered in decompose mode (ch. 02), and it's a candidate
-  demonstration for the **16-engine-boundaries** chapter.
+- **11** teaches **higher-order predicates** — the actual reason `call/N`
+  and `=..` exist. A first pass framed them as thin wrappers (`relate(P,A,B)
+  :- call(P,A,B).`) whose head args pass straight into the builtin; a learner
+  rightly found that artificial — the mechanism was shown with no job to do.
+  Reworked so the meta-call is *load-bearing*: `all_pass` (forall), `keep`
+  (filter / `include`), `apply_each` (map / `maplist`) — one rule that works
+  for any predicate you hand it, impossible to write without `call` — then a
+  `=..`-dispatch capstone framed against the one-clause-per-name table it
+  replaces. Each exercise's prose shows the *without-it* version so the
+  payoff is concrete. **Deferred from 11:** (a) `copy_term/2` — its genuine
+  uses (meta-interpreters, term rewriting) are beyond this point in the
+  curriculum, so it's held for a later, motivated home rather than taught via
+  a contrived template-reuse task; (b) `functor/3` in *construct* mode
+  (`functor(T, f, 2)`) is broken on `plgc` 0.1.0 — it shares one variable
+  across all argument slots (`functor(T, point, 2)` yields `point(_9, _9)`,
+  not `point(_A, _B)`), so `T = point(3, 4)` then fails. `functor/3` stays
+  covered in decompose mode (ch. 02); term *construction* is covered by `=..`.
+  Both are candidate demonstrations for the **16-engine-boundaries** chapter.
 - **15–16** are the feedback mission as curriculum: exceptions exercise the
   whole error taxonomy, and boundaries turns each deliberate exclusion +
   error-mode (`X is 1//0`, integer overflow, the uncatchable step limit)

@@ -1,4 +1,4 @@
-% Solution: 05-dispatch
+% Solution: 04-dispatch
 
 double(N, R) :- R is N * 2.
 negate(N, R) :- R is -N.
