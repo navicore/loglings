@@ -5,19 +5,32 @@
 % `Pred`, in order. Same higher-order idea, but it produces a sublist
 % instead of a verdict. (This is the library predicate `include/3`.)
 %
-% This exercise also shows WHY `call` bothers to append arguments. A test
-% can carry some of its own data. Define a two-argument predicate and you
-% can hand `call` a PARTIAL goal — the predicate with its first argument
-% already filled — and `call` supplies the rest:
+% This exercise also shows WHY `call` bothers to append arguments. It turns
+% on one rule worth saying out loud:
 %
-%     above(Min, X) :- X > Min.
+%     call ALWAYS appends its extra arguments to the END of the goal.
 %
-%     ?- call(above(3), 5).      % above(3) is partial; call appends 5
-%                                % -> above(3, 5) -> 5 > 3 -> true
+% That rule explains the two test predicates below, which look mismatched at
+% first: `positive` takes ONE argument, `above` takes TWO. How can `keep`
+% use both the same way?
 %
-% So `above(3)` behaves like a one-argument test "greater than 3", built
-% on the fly from data. That is partial application, and it's the whole
-% reason `call` takes extra arguments.
+%     positive(X)    :- X > 0.       % the element is the only argument
+%     above(Min, X)  :- X > Min.     % the element is the LAST argument
+%
+% `keep` runs each test as `call(Pred, H)`, appending the element H last.
+% For `positive` that builds `positive(H)`. For `above(3)` — that's `above`
+% with its first slot already filled by data — it builds `above(3, H)`.
+% Both land H in the last position, which is exactly where each predicate
+% expects the value to test:
+%
+%     call(positive,  5)  ->  positive(5)  ->  5 > 0  ->  true
+%     call(above(3),  5)  ->  above(3, 5)  ->  5 > 3  ->  true
+%
+% So `Min` is `above`'s FIRST argument on purpose. The data you fix ahead of
+% time goes first; the per-element value `call` supplies goes last. That's
+% why `above(3)` works as a ready-made test "greater than 3" — it carries
+% the floor and leaves the last slot open for `call` to fill. Put fixed data
+% first and the varying value last, and one `keep` works with any test.
 %
 % Your task: define `keep(Pred, List, Kept)`. Walk the list; keep each
 % element for which `Pred` holds, drop the rest. (An if-then-else inside
