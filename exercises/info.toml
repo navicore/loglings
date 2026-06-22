@@ -340,3 +340,27 @@ mode = "test"
 name = "04-dispatch"
 path = "exercises/11-meta/04-dispatch.pl"
 mode = "test"
+
+# ============================================================
+# 12-types: type-test guards — var nonvar atom number integer float compound is_list
+# ============================================================
+
+[[exercises]]
+name = "01-bound"
+path = "exercises/12-types/01-bound.pl"
+mode = "test"
+
+[[exercises]]
+name = "02-safe-sum"
+path = "exercises/12-types/02-safe-sum.pl"
+mode = "test"
+
+[[exercises]]
+name = "03-split-num"
+path = "exercises/12-types/03-split-num.pl"
+mode = "test"
+
+[[exercises]]
+name = "04-kind"
+path = "exercises/12-types/04-kind.pl"
+mode = "test"
