@@ -81,6 +81,7 @@ loglings reset 01-fact
 | **08-control** | Disjunction (`;`), if-then-else (`-> ;`), and the "how many solutions?" trio: negation (`\+`, none), `once/1` (one), `findall/3` (all) |
 | **09-cut** | The cut (`!`): committing, commit-or-default (green vs load-bearing), the cut-fail idiom, transparency in `;` |
 | **10-list-library** | `member/2` (test & generate), `append/3` (join & split — multi-mode), `reverse/2`, `length/2`, `last/2`, `between/3` |
+| **11-meta** | Higher-order predicates with `call/N`: forall, filter, map (one rule for any predicate you pass), plus `=..` dispatch (a name in data choosing the goal) |
 
 More sections will be added as the curriculum grows. The engine is still gaining features; expect new sections to follow new engine capabilities.
 
