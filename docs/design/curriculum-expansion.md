@@ -49,7 +49,7 @@ boundaries chapter caps the set and directly serves the feedback mission.
 | **cut** | `!` (green/red, ISO transparency in `;`/`->`) | **09** ✓ |
 | **list library** | `append/3 member/2 reverse/2 length/2 last/2 between/3` | **10** ✓ |
 | **meta & term construction** | `functor/3 arg/3 =../2 copy_term/2 call/N` | **11** ✓ |
-| **type-test guards** | `var nonvar atom number integer float compound is_list` | **12** |
+| **type-test guards** | `var nonvar atom number integer float compound is_list` | **12** ✓ |
 | **arithmetic depth** | `/ // mod rem div ** ^ << >> /\ \/ xor \ succ/2 plus/3` | **13** |
 | **atoms & text** | `atom_length atom_concat atom_chars number_chars number_codes` | **14** |
 | **exceptions** | `catch/3 throw/1` + ISO error taxonomy | **15** |
@@ -90,6 +90,21 @@ Notes on the high-value, currently-dark chapters:
   not `point(_A, _B)`), so `T = point(3, 4)` then fails. `functor/3` stays
   covered in decompose mode (ch. 02); term *construction* is covered by `=..`.
   Both are candidate demonstrations for the **16-engine-boundaries** chapter.
+- **12** is built as a *guard → dispatch* arc rather than eight isolated
+  yes/no demos (which would be the mechanism-only trap ch. 11 fell into).
+  Each test earns a job: `var`/`nonvar` answer "have I been given a value
+  yet?" — a question unification *can't* ask, because `=` with an unbound
+  var always succeeds and binds (`coalesce/3`, the or-else pattern);
+  `number/1` guards `is/2`, which on `plgc` doesn't fail but *crashes* the
+  query (`error(type_error(evaluable, foo))`, exit 3) — so the guard makes a
+  fussy op total over mixed data (`sum_nums/2`); `integer`/`float` split a
+  numeric list by subtype, since `number/1` lumps `3` and `3.0` together
+  (`split_num/3`). The capstone (`kind/2`) is the real lesson: the shape
+  tests *overlap* (every proper list is also `compound`; `[]` is both `atom`
+  and `is_list`), so classification isn't a partition — you impose one by
+  *ordering* an if-then-else chain (`atom` before `is_list` to catch `[]`;
+  `is_list` before `compound` to catch real lists). All eight builtins land
+  in a solution, satisfying the coverage check.
 - **15–16** are the feedback mission as curriculum: exceptions exercise the
   whole error taxonomy, and boundaries turns each deliberate exclusion +
   error-mode (`X is 1//0`, integer overflow, the uncatchable step limit)
