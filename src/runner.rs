@@ -1,5 +1,5 @@
 //! Shells out to `plgc run` to check an exercise file. `plgc` is the Prolog
-//! compiler from the `patch-prolog2` project (crate `plg-compiler`); it
+//! compiler from the `patch-prolog` project (crate `plg-compiler`); it
 //! compiles the file to a temp binary and runs it (it never interprets), so
 //! `clang` must be on PATH too.
 //!
@@ -47,7 +47,7 @@ pub fn check(file: &Path, goal: &str) -> CheckOutcome {
         Ok(o) => o,
         Err(e) => {
             return CheckOutcome::InvocationError(format!(
-                "Failed to run `{PLGC}`: {e}. Is `{PLGC}` installed and on your PATH? (It ships with the `patch-prolog2` project; it also needs `clang`.)"
+                "Failed to run `{PLGC}`: {e}. Is `{PLGC}` installed and on your PATH? (It ships with the `patch-prolog` project; it also needs `clang`.)"
             ));
         }
     };

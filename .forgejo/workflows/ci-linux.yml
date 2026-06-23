@@ -48,7 +48,7 @@ jobs:
       # binaries can cause false failures when language semantics change.
 
       # The curriculum tests (tests/curriculum.rs) compile every exercise/solution
-      # with `plgc`, so it must be on PATH. patch-prolog2 is not on crates.io yet
+      # with `plgc`, so it must be on PATH. patch-prolog is not on crates.io yet
       # (deliberate — it'll publish once the system matures), so install from git,
       # tracking main. plgc links each compiled exercise with clang, already in
       # the runner image.

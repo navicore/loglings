@@ -364,3 +364,32 @@ mode = "test"
 name = "04-kind"
 path = "exercises/12-types/04-kind.pl"
 mode = "test"
+
+# ============================================================
+# 13-arith-depth: division family, powers, bitwise, succ/2, plus/3
+# ============================================================
+
+[[exercises]]
+name = "01-digit-sum"
+path = "exercises/13-arith-depth/01-digit-sum.pl"
+mode = "test"
+
+[[exercises]]
+name = "02-clock"
+path = "exercises/13-arith-depth/02-clock.pl"
+mode = "test"
+
+[[exercises]]
+name = "03-int-pow"
+path = "exercises/13-arith-depth/03-int-pow.pl"
+mode = "test"
+
+[[exercises]]
+name = "04-flags"
+path = "exercises/13-arith-depth/04-flags.pl"
+mode = "test"
+
+[[exercises]]
+name = "05-both-ways"
+path = "exercises/13-arith-depth/05-both-ways.pl"
+mode = "test"

@@ -11,13 +11,13 @@
    "Logic programs, slightly broken."
 ```
 
-Interactive exercises for learning Prolog, powered by [patch-prolog2](https://git.navicore.tech/navicore/patch-prolog2).
+Interactive exercises for learning Prolog, powered by [patch-prolog](https://git.navicore.tech/navicore/patch-prolog).
 
 Inspired by [rustlings](https://github.com/rust-lang/rustlings) and [seqlings](https://git.navicore.tech/navicore/seqlings).
 
 ## Prerequisites
 
-You need the `plgc` compiler (from [patch-prolog2](https://git.navicore.tech/navicore/patch-prolog2), crate `plg-compiler`) on your `PATH`, plus **`clang` ≥ 15** — `plgc` compiles each exercise to a native binary via LLVM and links it with clang. See the [patch-prolog2 README](https://git.navicore.tech/navicore/patch-prolog2) for details.
+You need the `plgc` compiler (from [patch-prolog](https://git.navicore.tech/navicore/patch-prolog), crate `plg-compiler`) on your `PATH`, plus **`clang` ≥ 15** — `plgc` compiles each exercise to a native binary via LLVM and links it with clang. See the [patch-prolog README](https://git.navicore.tech/navicore/patch-prolog) for details.
 
 ## Quick start
 
@@ -83,6 +83,7 @@ loglings reset 01-fact
 | **10-list-library** | `member/2` (test & generate), `append/3` (join & split — multi-mode), `reverse/2`, `length/2`, `last/2`, `between/3` |
 | **11-meta** | Higher-order predicates with `call/N`: forall, filter, map (one rule for any predicate you pass), plus `=..` dispatch (a name in data choosing the goal) |
 | **12-types** | Type-test guards: `var`/`nonvar` (has a value yet?), `number`/`integer`/`float` (make arithmetic safe over mixed data), `atom`/`compound`/`is_list` (classify a term — the tests overlap, so order matters) |
+| **13-arith-depth** | Deeper arithmetic: the division family (`//` `mod` `rem` `div`, and the sign rules), `^` (int) vs `**` (float) powers, bitwise flags (`<<` `>>` `/\` `\|/` `xor`), and the two-way relations `succ/2` and `plus/3` (which run backwards, unlike `is/2`) |
 
 More sections will be added as the curriculum grows. The engine is still gaining features; expect new sections to follow new engine capabilities.
 
@@ -147,7 +148,7 @@ compile), then calls `just ci`. The Rust toolchain is pinned in
 If an exercise feels unfair, the hint is wrong, or you've discovered an engine gap (loglings refuses to accept your obviously-correct answer because the engine can't parse it), please open an issue at:
 
 - Curriculum/runner issues: [loglings issues](https://git.navicore.tech/navicore/loglings/issues)
-- Compiler bugs: [patch-prolog2 issues](https://git.navicore.tech/navicore/patch-prolog2/issues)
+- Compiler bugs: [patch-prolog issues](https://git.navicore.tech/navicore/patch-prolog/issues)
 
 ## License
 

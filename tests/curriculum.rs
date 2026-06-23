@@ -9,7 +9,7 @@
 //!
 //! Tier 2 — semantic (needs `plgc`): every reference solution makes its hidden
 //! `test/0` pass, and every starter parses, on the real compiler. `plgc` (from
-//! patch-prolog2, crate `plg-compiler`) is a hard dependency of the project —
+//! patch-prolog, crate `plg-compiler`) is a hard dependency of the project —
 //! CI installs it and local development already has it — so its absence is a
 //! test failure, not a skip.
 
@@ -208,7 +208,7 @@ fn require_plgc() {
     assert!(
         ok,
         "`plgc` not found on PATH — it is required for the semantic curriculum \
-         tests. CI installs it (patch-prolog2 / plg-compiler); for local dev, install it."
+         tests. CI installs it (patch-prolog / plg-compiler); for local dev, install it."
     );
 }
 

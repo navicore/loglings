@@ -50,7 +50,7 @@ boundaries chapter caps the set and directly serves the feedback mission.
 | **list library** | `append/3 member/2 reverse/2 length/2 last/2 between/3` | **10** ✓ |
 | **meta & term construction** | `functor/3 arg/3 =../2 copy_term/2 call/N` | **11** ✓ |
 | **type-test guards** | `var nonvar atom number integer float compound is_list` | **12** ✓ |
-| **arithmetic depth** | `/ // mod rem div ** ^ << >> /\ \/ xor \ succ/2 plus/3` | **13** |
+| **arithmetic depth** | `/ // mod rem div ** ^ << >> /\ \/ xor \ succ/2 plus/3` | **13** ✓ |
 | **atoms & text** | `atom_length atom_concat atom_chars number_chars number_codes` | **14** |
 | **exceptions** | `catch/3 throw/1` + ISO error taxonomy | **15** |
 | **engine boundaries** | no `op/3`/assert/DCG/modules/postfix; overflow, ÷0, `resource_error(steps)` | **16** |
@@ -85,8 +85,8 @@ Notes on the high-value, currently-dark chapters:
   uses (meta-interpreters, term rewriting) are beyond this point in the
   curriculum, so it's held for a later, motivated home rather than taught via
   a contrived template-reuse task; (b) `functor/3` in *construct* mode
-  (`functor(T, f, 2)`) is broken on `plgc` 0.1.0 — it shares one variable
-  across all argument slots (`functor(T, point, 2)` yields `point(_9, _9)`,
+  (`functor(T, f, 2)`) is broken on `plgc` — it shares one variable
+  across all argument slots (`functor(T, point, 2)` yields `point(_6, _6)`,
   not `point(_A, _B)`), so `T = point(3, 4)` then fails. `functor/3` stays
   covered in decompose mode (ch. 02); term *construction* is covered by `=..`.
   Both are candidate demonstrations for the **16-engine-boundaries** chapter.
@@ -105,6 +105,37 @@ Notes on the high-value, currently-dark chapters:
   *ordering* an if-then-else chain (`atom` before `is_list` to catch `[]`;
   `is_list` before `compound` to catch real lists). All eight builtins land
   in a solution, satisfying the coverage check.
+- **13** gives each operator a *job* rather than a "compute this" demo:
+  `digit_sum` (`//`/`mod` as a digit machine), `clock` (the `mod`-vs-`rem`
+  sign split — `mod` follows the divisor so `mod 12` stays in 0..11 for
+  backward deltas; `div` is its floored partner), `int_pow` (`^` int vs `**`
+  float — a callback to ch. 12, sharpened by a confirmed `plgc` `write/1`
+  bug: a whole-valued float is printed WITHOUT its `.0`, so `2 ** 10` shows
+  `1024` even though it really is the float `1024.0` (`float/1` succeeds,
+  `integer/1` rejects it, `1024.0 == 1024` is false). The *value* semantics
+  are ISO-correct; only the textual output is non-compliant, and it lives in
+  `write/1` itself (`write(2.0)` emits `2`), not just the CLI binding line.
+  The test sidesteps it by asserting on types and `=:=`, never on printed
+  digits; `/` always float, `//` always int round it out), `flags` (bitwise
+  as a set: `1 << pos` masks, `\/` add, `/\ =:= mask` test, `xor` toggle,
+  `>>` as the inverse shift), and `both-ways` (`succ/2`, `plus/3` as
+  multi-mode RELATIONS that run backward, which `is/2` can't — a callback to
+  ch. 10's `append/3`). **Deferred from 13:** unary `\` (bitwise complement)
+  — `plgc` reports `type_error(evaluable, \/1)` ("Unknown arithmetic
+  operator: \/1"); the binary bitwise ops all work, only the one-argument
+  complement is missing.
+
+  **Upstream `plgc` defects found while authoring (filed as patch-prolog
+  issues), all boundaries-chapter (16) candidates:**
+  1. *Correctness* — `functor/3` construct mode shares one variable across
+     all argument slots (`functor(T, point, 2)` → `point(_, _)` with the
+     same var), so building a fresh term fails. Decompose mode is fine.
+  2. *Output compliance* — `write/1` drops the `.0` from whole-valued floats
+     (`write(2.0)` → `2`), so a float prints indistinguishably from an
+     integer and would not read back as a float. Underlying value/type is
+     correct.
+  3. *Incompleteness* — unary `\/1` (bitwise complement) is not an evaluable
+     functor; `writeq/1` is also undefined (`existence_error`).
 - **15–16** are the feedback mission as curriculum: exceptions exercise the
   whole error taxonomy, and boundaries turns each deliberate exclusion +
   error-mode (`X is 1//0`, integer overflow, the uncatchable step limit)

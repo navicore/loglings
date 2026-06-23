@@ -1,8 +1,6 @@
 # Design: `02-terms` and `03-operators` chapters
 
-Status: built and in the curriculum. Verified passing on `plgc` 0.1.0
-(patch-prolog2). Originally authored against `prlg` (patch-prolog, now
-archived); the language carried over at parity, so the exercises were unchanged.
+Status: built and in the curriculum. Verified passing on `plgc` by CI.
 
 ## Motivation
 
@@ -35,10 +33,9 @@ terms; precedence/associativity as the disambiguation rule.
 - **Hints are nudges, not answers.** Strip the `## Solution sketch` from every
   hint project-wide; solutions stay in `solutions/`.
 
-## Compiler notes (plgc 0.1.0)
+## Compiler notes (plgc)
 
-All verified against `plgc` (the v1→v2 migration preserved the language; these
-held on the old `prlg` engine too).
+All verified against `plgc`.
 
 - Operators are usable as bare atoms in term position, so
   `01-operators-are-terms` writes `+`/`*`/`-` directly — no quoting needed.
