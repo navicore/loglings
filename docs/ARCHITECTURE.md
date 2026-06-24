@@ -7,14 +7,13 @@ harder exercises (rustlings/seqlings-style). The learner edits `.pl` files in
 their own editor; loglings watches the files and re-checks on save.
 
 Boundary: loglings does **not** interpret Prolog itself. The one external
-system is the **`plgc`** compiler (from the `patch-prolog2` sibling project,
-crate `plg-compiler`; must be on `PATH`), invoked as a subprocess to check each
-exercise. `plgc` is a real LLVM-based compiler — it compiles each file to a
-native binary and runs it (it never interprets), so **`clang` ≥ 15** must be on
-`PATH` too. loglings is the downstream consumer and feeds findings back as
-issues. (It previously used `patch-prolog`'s `prlg` engine, now archived in
-favor of this compiler.) Everything else — exercises,
-hints, solutions — ships inside the loglings binary.
+system is the **`plgc`** compiler (from the `navicore/patch-prolog` sibling
+project, crate `plg-compiler`; must be on `PATH`), invoked as a subprocess to
+check each exercise. `plgc` is a real LLVM-based compiler — it compiles each
+file to a native binary and runs it (it never interprets), so **`clang` ≥ 15**
+must be on `PATH` too. loglings is the downstream consumer and feeds findings
+back as issues. Everything else — exercises, hints, solutions — ships inside
+the loglings binary.
 
 ## Solution Strategy
 

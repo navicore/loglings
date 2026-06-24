@@ -1,6 +1,6 @@
 # Design: `04-lists` chapter
 
-Status: built and in the curriculum. Verified passing on `plgc` (patch-prolog2).
+Status: built and in the curriculum. Verified passing on `plgc` by CI.
 
 ## Motivation
 

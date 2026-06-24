@@ -4,7 +4,7 @@ version = "0.0.1"
 edition = "2024"
 authors = ["Ed Sweeney <ed@onextent.com>"]
 license = "MIT"
-description = "Interactive exercises for learning Prolog with patch-prolog2"
+description = "Interactive exercises for learning Prolog with patch-prolog"
 repository = "https://git.navicore.tech/navicore/loglings"
 
 [[bin]]

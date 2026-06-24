@@ -2,17 +2,15 @@
 
 ## Current state
 
-Compiler: the `plgc` binary (subprocess; from patch-prolog2, crate
-`plg-compiler`, currently 0.1.0). It compiles each exercise to a native binary
-via LLVM and links with `clang` ≥ 15 — so `clang` is a runtime dependency. This
-replaced the now-archived `patch-prolog` / `prlg` engine; the CLI contract
-(`run … --query … --format text`, exit codes `0/1/2/3`) and the ISO-subset
-language (still no `op/3`/postfix) carried over, so loglings needed only the
-binary name and the `--goal`→`--query` flag rename. CLI commands implemented: `init`,
+Compiler: the `plgc` binary (subprocess; from navicore/patch-prolog, crate
+`plg-compiler`). It compiles each exercise to a native binary via LLVM and
+links with `clang` ≥ 15 — so `clang` is a runtime dependency. The CLI contract
+is `run … --query … --format text` with exit codes `0/1/2/3`, over an
+ISO-subset language (no `op/3`/postfix). CLI commands implemented: `init`,
 `update` (+ `--dry-run`, `--force`), `list`, `verify`, `hint`, `next`, `reset`,
 and the default watch loop.
 
-Curriculum on disk (62 exercises):
+Curriculum on disk (67 exercises):
 
 | Section | Topics |
 |---|---|
@@ -29,6 +27,7 @@ Curriculum on disk (62 exercises):
 | `10-list-library` (6) | `member/2`, `append/3` (join & split), `reverse/2`, `length/2`, `last/2`, `between/3` |
 | `11-meta` (4) | higher-order predicates with `call/N` (forall, filter, map), `=..` dispatch capstone |
 | `12-types` (4) | type-test guards: `var`/`nonvar` (instantiation), `number`/`integer`/`float` (safe arithmetic), `atom`/`compound`/`is_list` (shape dispatch) |
+| `13-arith-depth` (5) | division family (`//` `mod` `rem` `div`), powers (`^` int vs `**` float), bitwise flags (`<<` `>>` `/\` `\|/` `xor`), relational `succ/2`/`plus/3` |
 
 The "term model" arc (`02-terms` → `03-operators` → `04-lists`) was added
 after field feedback; design history in
@@ -42,22 +41,21 @@ only; full answers live in `solutions/`.
 
 ## External dependencies
 
-- **Compiler: `plgc`** (patch-prolog2 / `plg-compiler`, 0.1.0) plus
-  **`clang` ≥ 15**. patch-prolog2 supersedes the now-archived patch-prolog: a
-  real LLVM compiler rather than an interpreter. The ISO-subset language, the
-  builtin vocabulary, and the `0/1/2/3` exit-code contract carried over at
-  parity, so the curriculum was unaffected — only the binary name and the
-  `--goal`→`--query` flag changed.
-- **No `op/3`, no postfix operators** (by design, unchanged from the old
-  engine) — the `03-operators` chapter teaches this as the compiler boundary.
-- The prefix/infix completeness the curriculum relies on (full prefix/infix
-  incl. right-associative `^`) carried into patch-prolog2.
+- **Compiler: `plgc`** (navicore/patch-prolog / `plg-compiler`) plus
+  **`clang` ≥ 15**. `plgc` is a real LLVM compiler, not an interpreter: it
+  compiles each exercise to a native binary and runs it. The curriculum
+  targets its ISO-subset language, builtin vocabulary, and `0/1/2/3`
+  exit-code contract.
+- **No `op/3`, no postfix operators** (by design) — the `03-operators`
+  chapter teaches this as the compiler boundary.
+- The curriculum relies on full prefix/infix operator support, including
+  right-associative `^`.
 
 ## Notes
 
-- CI installs `plgc` from patch-prolog2 `main` (trunk-based; not yet on
+- CI installs `plgc` from navicore/patch-prolog `main` (trunk-based; not yet on
   crates.io).
 
 ## Future
 
-More sections, tracking new patch-prolog2 / `plgc` capabilities as they land.
+More sections, tracking new `plgc` capabilities as they land.
