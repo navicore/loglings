@@ -6,14 +6,14 @@
 %     2 ^ 10    % integer power  -> 1024   (an integer)
 %     2 ** 10   % float power    -> 1024.0 (a float)
 %
-% Here's the trap: plgc PRINTS a whole-valued float without its `.0`, so
-% `X is 2 ** 10` shows `X = 1024` on screen — identical to the `^` answer.
-% They are NOT the same term. The printer hides it; `integer/1` and
-% `float/1` don't:
+% You can SEE the difference — `2 ** 10` prints as `1024.0`, `2 ^ 10` as
+% `1024`. Same value, but NOT the same term, and `integer/1` / `float/1`
+% confirm which is which:
 %
-%     ?- X is 2 ** 10, float(X).    % true  — it really is 1024.0
-%     ?- X is 2 ^ 10, integer(X).   % true  — this one is 1024
+%     ?- X is 2 ** 10, float(X).    % true  — it's 1024.0
+%     ?- X is 2 ^ 10, integer(X).   % true  — it's 1024
 %     ?- 1024.0 == 1024.            % false — different terms!
+%     ?- 1024.0 =:= 1024.           % true  — equal in value, though
 %
 % Division splits the same way: `/` always gives a float (`7 / 2` is 3.5,
 % and even `4 / 2` is 2.0), while `//` always gives an integer.
@@ -23,10 +23,10 @@
 % bit positions in the next exercise). `int_pow(2, 10, P)` gives `P = 1024`
 % as an integer; `int_pow(5, 3, P)` gives 125.
 %
-% It is a one-liner — the lesson is the CHOICE. Reach for `**` and it will
-% even print the right digits, but the hidden float breaks the integer
-% promise (the test checks `integer(P)`). Pick the operator whose type
-% matches what you said you'd return.
+% It is a one-liner — the lesson is the CHOICE. `**` returns a float
+% (`1024.0`), which fails the integer promise even though it equals 1024
+% (the test checks `integer(P)`). Pick the operator whose type matches what
+% you said you'd return.
 %
 % Delete the marker when done.
 

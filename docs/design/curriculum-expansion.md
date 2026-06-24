@@ -84,12 +84,12 @@ Notes on the high-value, currently-dark chapters:
   payoff is concrete. **Deferred from 11:** (a) `copy_term/2` — its genuine
   uses (meta-interpreters, term rewriting) are beyond this point in the
   curriculum, so it's held for a later, motivated home rather than taught via
-  a contrived template-reuse task; (b) `functor/3` in *construct* mode
-  (`functor(T, f, 2)`) is broken on `plgc` — it shares one variable
-  across all argument slots (`functor(T, point, 2)` yields `point(_6, _6)`,
-  not `point(_A, _B)`), so `T = point(3, 4)` then fails. `functor/3` stays
-  covered in decompose mode (ch. 02); term *construction* is covered by `=..`.
-  Both are candidate demonstrations for the **16-engine-boundaries** chapter.
+  a contrived template-reuse task; (b) `functor/3` in *construct* mode — at
+  authoring time it was broken on `plgc` (it shared one variable across all
+  argument slots, so `functor(T, point, 2), T = point(3, 4)` failed), since
+  fixed in 0.3.2 (issue #31). `functor/3` was covered in decompose mode
+  (ch. 02) and term *construction* via `=..`; that split still stands as a
+  reasonable pedagogical choice, but construct mode is no longer broken.
 - **12** is built as a *guard → dispatch* arc rather than eight isolated
   yes/no demos (which would be the mechanism-only trap ch. 11 fell into).
   Each test earns a job: `var`/`nonvar` answer "have I been given a value
@@ -109,33 +109,32 @@ Notes on the high-value, currently-dark chapters:
   `digit_sum` (`//`/`mod` as a digit machine), `clock` (the `mod`-vs-`rem`
   sign split — `mod` follows the divisor so `mod 12` stays in 0..11 for
   backward deltas; `div` is its floored partner), `int_pow` (`^` int vs `**`
-  float — a callback to ch. 12, sharpened by a confirmed `plgc` `write/1`
-  bug: a whole-valued float is printed WITHOUT its `.0`, so `2 ** 10` shows
-  `1024` even though it really is the float `1024.0` (`float/1` succeeds,
-  `integer/1` rejects it, `1024.0 == 1024` is false). The *value* semantics
-  are ISO-correct; only the textual output is non-compliant, and it lives in
-  `write/1` itself (`write(2.0)` emits `2`), not just the CLI binding line.
-  The test sidesteps it by asserting on types and `=:=`, never on printed
-  digits; `/` always float, `//` always int round it out), `flags` (bitwise
+  float — a callback to ch. 12. `2 ^ 10` is the integer `1024`; `2 ** 10` is
+  the float `1024.0` — equal in value (`=:=`) but different terms (`==` is
+  false), told apart by `float/1`/`integer/1`. (When authored, a `plgc`
+  `write/1` bug hid this: a whole-valued float printed without its `.0`, so
+  `2 ** 10` showed `1024`, indistinguishable from the integer — fixed in
+  0.3.2, issue #32.) The test asserts on types and `=:=`, never on printed
+  digits, which is the robust choice regardless; `/` always float, `//`
+  always int round it out), `flags` (bitwise
   as a set: `1 << pos` masks, `\/` add, `/\ =:= mask` test, `xor` toggle,
   `>>` as the inverse shift), and `both-ways` (`succ/2`, `plus/3` as
   multi-mode RELATIONS that run backward, which `is/2` can't — a callback to
-  ch. 10's `append/3`). **Deferred from 13:** unary `\` (bitwise complement)
-  — `plgc` reports `type_error(evaluable, \/1)` ("Unknown arithmetic
-  operator: \/1"); the binary bitwise ops all work, only the one-argument
-  complement is missing.
+  ch. 10's `append/3`). All of chapter 13's operators are usable on `plgc`; unary `\`
+  (bitwise complement) was missing at authoring time but was fixed in 0.3.2
+  (issue #33), so nothing from this chapter is deferred.
 
-  **Upstream `plgc` defects found while authoring (filed as patch-prolog
-  issues), all boundaries-chapter (16) candidates:**
-  1. *Correctness* — `functor/3` construct mode shares one variable across
-     all argument slots (`functor(T, point, 2)` → `point(_, _)` with the
-     same var), so building a fresh term fails. Decompose mode is fine.
-  2. *Output compliance* — `write/1` drops the `.0` from whole-valued floats
-     (`write(2.0)` → `2`), so a float prints indistinguishably from an
-     integer and would not read back as a float. Underlying value/type is
-     correct.
-  3. *Incompleteness* — unary `\/1` (bitwise complement) is not an evaluable
-     functor; `writeq/1` is also undefined (`existence_error`).
+  **Upstream `plgc` defects surfaced while authoring — all since fixed
+  (patch-prolog #31–#33, #35) and verified on 0.3.2:**
+  1. `functor/3` construct mode shared one variable across all argument slots
+     (`functor(T, point, 2)` → `point(_, _)`), so building a fresh term
+     failed — *fixed #31*.
+  2. `write/1` dropped the `.0` from whole-valued floats (`write(2.0)` → `2`),
+     so a float printed indistinguishably from an integer — *fixed #32*.
+  3. Unary `\/1` (bitwise complement) and `writeq/1` were missing — *fixed #33*.
+  4. `atom_concat/3` was forward-only and raised `type_error` (not
+     `instantiation_error`) for the split modes — *fixed #35*, now full ISO
+     8.16.2 nondeterminism.
 - **15–16** are the feedback mission as curriculum: exceptions exercise the
   whole error taxonomy, and boundaries turns each deliberate exclusion +
   error-mode (`X is 1//0`, integer overflow, the uncatchable step limit)
