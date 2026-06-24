@@ -22,6 +22,22 @@
 % list has total length 0. Recursive case: measure the head, recurse on the
 % tail, add the two.
 %
+% One thing to watch — and it's a genuine Prolog surprise. Almost everywhere
+% else, the ORDER of goals in a body doesn't change what's true; it only
+% affects how the answer is found. `is/2` is the exception. It evaluates its
+% right-hand side the instant control reaches it, so every variable on that
+% side must ALREADY be bound by then. The recursive call is what binds the
+% tail's total — so it has to run BEFORE the `is` that adds that total in.
+% Put the `is` first, while the total is still an unbound variable, and you
+% don't get a wrong answer — you get an `instantiation_error` and the query
+% stops cold.
+%
+% So: produce a value before you consume it. This is the one corner where
+% Prolog's "order doesn't matter" stops being true — `is/2` (and the
+% arithmetic comparisons `<`, `=:=`, and friends) need their inputs computed
+% already, and a goal that binds a variable has to come before the goal that
+% uses it.
+%
 % Delete the marker when done.
 
 % I AM NOT DONE
