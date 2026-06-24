@@ -1,18 +1,18 @@
 % Solution: 05-both-ways
 
-adjacent(X, Y) :- succ(X, Y).
-sum3(A, B, C) :- plus(A, B, C).
+budget_left(Budget, Spent, Left) :- plus(Spent, Left, Budget).
+next_page(Page, Next) :- succ(Page, Next).
 
 % Do not edit below this line
 
 test :-
-    adjacent(3, Y),
-    Y == 4,
-    adjacent(X, 10),
-    X == 9,
-    sum3(2, 3, S),
-    S == 5,
-    sum3(2, B, 5),
-    B == 3,
-    sum3(A, 3, 5),
-    A == 2.
+    budget_left(100, 30, L),
+    L == 70,
+    budget_left(100, S, 70),
+    S == 30,
+    budget_left(B, 30, 70),
+    B == 100,
+    next_page(5, N),
+    N == 6,
+    next_page(P, 6),
+    P == 5.
