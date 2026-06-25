@@ -15,6 +15,10 @@ Interactive exercises for learning Prolog, powered by [patch-prolog](https://git
 
 Inspired by [rustlings](https://github.com/rust-lang/rustlings) and [seqlings](https://git.navicore.tech/navicore/seqlings).
 
+**Home Code Repository** is at [git.navicore.tech](https://git.navicore.tech/navicore/loglings)
+
+**PRs and issues** welcome at [codeberg.org mirror](https://codeberg.org/navicore/loglings)
+
 ## Prerequisites
 
 You need the `plgc` compiler (from [patch-prolog](https://git.navicore.tech/navicore/patch-prolog), crate `plg-compiler`) on your `PATH`, plus **`clang` ≥ 15** — `plgc` compiles each exercise to a native binary via LLVM and links it with clang. See the [patch-prolog README](https://git.navicore.tech/navicore/patch-prolog) for details.
