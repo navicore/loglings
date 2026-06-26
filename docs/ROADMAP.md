@@ -10,7 +10,7 @@ ISO-subset language (no `op/3`/postfix). CLI commands implemented: `init`,
 `update` (+ `--dry-run`, `--force`), `list`, `verify`, `hint`, `next`, `reset`,
 and the default watch loop.
 
-Curriculum on disk (67 exercises):
+Curriculum on disk (73 exercises):
 
 | Section | Topics |
 |---|---|
@@ -28,6 +28,7 @@ Curriculum on disk (67 exercises):
 | `11-meta` (4) | higher-order predicates with `call/N` (forall, filter, map), `=..` dispatch capstone |
 | `12-types` (4) | type-test guards: `var`/`nonvar` (instantiation), `number`/`integer`/`float` (safe arithmetic), `atom`/`compound`/`is_list` (shape dispatch) |
 | `13-arith-depth` (5) | division family (`//` `mod` `rem` `div`), powers (`^` int vs `**` float), bitwise flags (`<<` `>>` `/\` `\|/` `xor`), relational `succ/2`/`plus/3` |
+| `14-atoms-text` (6) | `atom_length/2`, `atom_concat/3` (join & relational split), `atom_chars/2` (atom↔list, both ways), `number_chars/2` (compare digits as atoms) vs `number_codes/2` (compute on digits as codes) |
 
 The "term model" arc (`02-terms` → `03-operators` → `04-lists`) was added
 after field feedback; design history in

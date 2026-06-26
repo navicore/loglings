@@ -393,3 +393,38 @@ mode = "test"
 name = "05-both-ways"
 path = "exercises/13-arith-depth/05-both-ways.pl"
 mode = "test"
+
+# ============================================================
+# 14-atoms-text: atom_length, atom_concat (join & split),
+# atom_chars; number_chars (compare digits) vs number_codes (compute on them)
+# ============================================================
+
+[[exercises]]
+name = "01-measure"
+path = "exercises/14-atoms-text/01-measure.pl"
+mode = "test"
+
+[[exercises]]
+name = "02-join"
+path = "exercises/14-atoms-text/02-join.pl"
+mode = "test"
+
+[[exercises]]
+name = "03-prefix-suffix"
+path = "exercises/14-atoms-text/03-prefix-suffix.pl"
+mode = "test"
+
+[[exercises]]
+name = "04-spell"
+path = "exercises/14-atoms-text/04-spell.pl"
+mode = "test"
+
+[[exercises]]
+name = "05-count-digit"
+path = "exercises/14-atoms-text/05-count-digit.pl"
+mode = "test"
+
+[[exercises]]
+name = "06-digit-sum"
+path = "exercises/14-atoms-text/06-digit-sum.pl"
+mode = "test"
