@@ -396,7 +396,7 @@ mode = "test"
 
 # ============================================================
 # 14-atoms-text: atom_length, atom_concat (join & split),
-# atom_chars, number_chars, number_codes
+# atom_chars; number_chars (compare digits) vs number_codes (compute on them)
 # ============================================================
 
 [[exercises]]
@@ -420,6 +420,11 @@ path = "exercises/14-atoms-text/04-spell.pl"
 mode = "test"
 
 [[exercises]]
-name = "05-digit-sum"
-path = "exercises/14-atoms-text/05-digit-sum.pl"
+name = "05-count-digit"
+path = "exercises/14-atoms-text/05-count-digit.pl"
+mode = "test"
+
+[[exercises]]
+name = "06-digit-sum"
+path = "exercises/14-atoms-text/06-digit-sum.pl"
 mode = "test"

@@ -84,7 +84,7 @@ loglings reset 01-fact
 | **11-meta** | Higher-order predicates with `call/N`: forall, filter, map (one rule for any predicate you pass), plus `=..` dispatch (a name in data choosing the goal) |
 | **12-types** | Type-test guards: `var`/`nonvar` (has a value yet?), `number`/`integer`/`float` (make arithmetic safe over mixed data), `atom`/`compound`/`is_list` (classify a term — the tests overlap, so order matters) |
 | **13-arith-depth** | Deeper arithmetic: the division family (`//` `mod` `rem` `div`, and the sign rules), `^` (int) vs `**` (float) powers, bitwise flags (`<<` `>>` `/\` `\|/` `xor`), and the two-way relations `succ/2` and `plus/3` (which run backwards, unlike `is/2`) |
-| **14-atoms-text** | Looking inside atoms: `atom_length/2` (measure), `atom_concat/3` (join, and split run backwards — multi-mode), `atom_chars/2` (the bridge to lists, both directions), `number_chars/2` vs `number_codes/2` (a number's two text faces — char atoms vs integer codes) |
+| **14-atoms-text** | Looking inside atoms: `atom_length/2` (measure), `atom_concat/3` (join, and split run backwards — multi-mode), `atom_chars/2` (the bridge to lists, both directions), `number_chars/2` vs `number_codes/2` (a number's two text faces — char atoms for comparing digits, integer codes for computing on them) |
 
 More sections will be added as the curriculum grows. The engine is still gaining features; expect new sections to follow new engine capabilities.
 
