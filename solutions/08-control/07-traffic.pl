@@ -1,4 +1,4 @@
-% Solution: 06-traffic
+% Solution: 07-traffic
 
 action(Light, A) :-
     ( Light = red    -> A = stop

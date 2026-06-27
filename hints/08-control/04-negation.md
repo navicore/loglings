@@ -1,4 +1,4 @@
-# Hint — 03-negation
+# Hint — 04-negation
 
 A single goal: `\+` in front of the `in_stock` check on the same item.
 "Needs restock" is exactly "cannot be proved in stock".

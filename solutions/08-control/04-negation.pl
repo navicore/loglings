@@ -1,4 +1,4 @@
-% Solution: 03-negation
+% Solution: 04-negation
 
 in_stock(apples).
 in_stock(bread).

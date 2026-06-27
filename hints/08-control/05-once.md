@@ -1,4 +1,4 @@
-# Hint — 04-once
+# Hint — 05-once
 
 One goal: wrap the `color(C)` call in `once(...)`. That's the whole
 definition — `once` handles the "stop after the first" part for you.

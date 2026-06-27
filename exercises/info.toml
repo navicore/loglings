@@ -221,7 +221,7 @@ path = "exercises/07-equality/05-sorting.pl"
 mode = "test"
 
 # ============================================================
-# 08-control: ;, ( -> ; ), \+, once/1, findall/3, true/fail
+# 08-control: ;, ( -> ; ), true/fail, \+, once/1, findall/3, traffic
 # ============================================================
 
 [[exercises]]
@@ -235,23 +235,28 @@ path = "exercises/08-control/02-if-then-else.pl"
 mode = "test"
 
 [[exercises]]
-name = "03-negation"
-path = "exercises/08-control/03-negation.pl"
+name = "03-true-fail"
+path = "exercises/08-control/03-true-fail.pl"
 mode = "test"
 
 [[exercises]]
-name = "04-once"
-path = "exercises/08-control/04-once.pl"
+name = "04-negation"
+path = "exercises/08-control/04-negation.pl"
 mode = "test"
 
 [[exercises]]
-name = "05-collect"
-path = "exercises/08-control/05-collect.pl"
+name = "05-once"
+path = "exercises/08-control/05-once.pl"
 mode = "test"
 
 [[exercises]]
-name = "06-traffic"
-path = "exercises/08-control/06-traffic.pl"
+name = "06-collect"
+path = "exercises/08-control/06-collect.pl"
+mode = "test"
+
+[[exercises]]
+name = "07-traffic"
+path = "exercises/08-control/07-traffic.pl"
 mode = "test"
 
 # ============================================================
@@ -427,4 +432,34 @@ mode = "test"
 [[exercises]]
 name = "06-digit-sum"
 path = "exercises/14-atoms-text/06-digit-sum.pl"
+mode = "test"
+
+# ============================================================
+# 15-exceptions: catch/3 and throw/1 — the ISO error(Formal, Context)
+# taxonomy, selective catching & rethrow, throw as non-local exit
+# ============================================================
+
+[[exercises]]
+name = "01-catch-recover"
+path = "exercises/15-exceptions/01-catch-recover.pl"
+mode = "test"
+
+[[exercises]]
+name = "02-catch-error"
+path = "exercises/15-exceptions/02-catch-error.pl"
+mode = "test"
+
+[[exercises]]
+name = "03-selective"
+path = "exercises/15-exceptions/03-selective.pl"
+mode = "test"
+
+[[exercises]]
+name = "04-non-local-exit"
+path = "exercises/15-exceptions/04-non-local-exit.pl"
+mode = "test"
+
+[[exercises]]
+name = "05-validate"
+path = "exercises/15-exceptions/05-validate.pl"
 mode = "test"

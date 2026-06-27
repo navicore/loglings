@@ -1,4 +1,4 @@
-# Hint — 05-collect
+# Hint — 06-collect
 
 One rule, one goal in its body: a single `findall`. The worked example
 showed that shape as a *query*; here you wrap the same shape in a rule so
