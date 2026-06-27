@@ -1,4 +1,4 @@
-% Solution: 04-once
+% Solution: 05-once
 
 color(red).
 color(green).

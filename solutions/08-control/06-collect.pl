@@ -1,4 +1,4 @@
-% Solution: 05-collect
+% Solution: 06-collect
 
 book(dune, sci_fi).
 book(hobbit, fantasy).

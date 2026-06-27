@@ -82,13 +82,14 @@ loglings reset 01-fact
 | **05-comparison** | `<` `>` `=<` `>=` `=:=` `=\=`, and choosing `is` vs `=` vs `=:=` |
 | **06-recursion** | Base case + recursive step: countdown, factorial, sum, length, map |
 | **07-equality** | Term identity (`==` `\==`), standard order of terms (`@<`, `compare/3`), `sort/2` vs `msort/2` |
-| **08-control** | Disjunction (`;`), if-then-else (`-> ;`), and the "how many solutions?" trio: negation (`\+`, none), `once/1` (one), `findall/3` (all) |
+| **08-control** | Disjunction (`;`), if-then-else (`-> ;`), `true`/`fail` (the two built-in zero-arity goals — a bare atom *is* a goal, a call to a predicate), and the "how many solutions?" trio: negation (`\+`, none), `once/1` (one), `findall/3` (all) |
 | **09-cut** | The cut (`!`): committing, commit-or-default (green vs load-bearing), the cut-fail idiom, transparency in `;` |
 | **10-list-library** | `member/2` (test & generate), `append/3` (join & split — multi-mode), `reverse/2`, `length/2`, `last/2`, `between/3` |
 | **11-meta** | Higher-order predicates with `call/N`: forall, filter, map (one rule for any predicate you pass), plus `=..` dispatch (a name in data choosing the goal) |
 | **12-types** | Type-test guards: `var`/`nonvar` (has a value yet?), `number`/`integer`/`float` (make arithmetic safe over mixed data), `atom`/`compound`/`is_list` (classify a term — the tests overlap, so order matters) |
 | **13-arith-depth** | Deeper arithmetic: the division family (`//` `mod` `rem` `div`, and the sign rules), `^` (int) vs `**` (float) powers, bitwise flags (`<<` `>>` `/\` `\|/` `xor`), and the two-way relations `succ/2` and `plus/3` (which run backwards, unlike `is/2`) |
 | **14-atoms-text** | Looking inside atoms: `atom_length/2` (measure), `atom_concat/3` (join, and split run backwards — multi-mode), `atom_chars/2` (the bridge to lists, both directions), `number_chars/2` vs `number_codes/2` (a number's two text faces — char atoms for comparing digits, integer codes for computing on them) |
+| **15-exceptions** | Raising and handling signals: `throw/1` and `catch/3` (catch a ball you threw, recover with a default), the ISO `error(Formal, Context)` shape (catch an error the *engine* throws), selective catching and rethrow (the catcher is a unification — match narrowly, let the rest propagate), `throw` as a non-local exit out of deep recursion, and typed errors as a reporting channel |
 
 More sections will be added as the curriculum grows. The engine is still gaining features; expect new sections to follow new engine capabilities.
 
