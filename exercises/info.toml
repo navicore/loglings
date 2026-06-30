@@ -463,3 +463,34 @@ mode = "test"
 name = "05-validate"
 path = "exercises/15-exceptions/05-validate.pl"
 mode = "test"
+
+# ============================================================
+# 16-boundaries: the engine's edges — catchable int_overflow, the
+# uncatchable resource_error(steps), no dynamic database (existence_error),
+# the fixed operator table (op/3/postfix/DCG are parse errors), robust capstone
+# ============================================================
+
+[[exercises]]
+name = "01-overflow"
+path = "exercises/16-boundaries/01-overflow.pl"
+mode = "test"
+
+[[exercises]]
+name = "02-uncatchable"
+path = "exercises/16-boundaries/02-uncatchable.pl"
+mode = "test"
+
+[[exercises]]
+name = "03-no-database"
+path = "exercises/16-boundaries/03-no-database.pl"
+mode = "test"
+
+[[exercises]]
+name = "04-fixed-syntax"
+path = "exercises/16-boundaries/04-fixed-syntax.pl"
+mode = "test"
+
+[[exercises]]
+name = "05-robust-eval"
+path = "exercises/16-boundaries/05-robust-eval.pl"
+mode = "test"

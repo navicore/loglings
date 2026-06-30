@@ -10,7 +10,7 @@ ISO-subset language (no `op/3`/postfix). CLI commands implemented: `init`,
 `update` (+ `--dry-run`, `--force`), `list`, `verify`, `hint`, `next`, `reset`,
 and the default watch loop.
 
-Curriculum on disk (79 exercises):
+Curriculum on disk (84 exercises):
 
 | Section | Topics |
 |---|---|
@@ -30,6 +30,7 @@ Curriculum on disk (79 exercises):
 | `13-arith-depth` (5) | division family (`//` `mod` `rem` `div`), powers (`^` int vs `**` float), bitwise flags (`<<` `>>` `/\` `\|/` `xor`), relational `succ/2`/`plus/3` |
 | `14-atoms-text` (6) | `atom_length/2`, `atom_concat/3` (join & relational split), `atom_chars/2` (atom↔list, both ways), `number_chars/2` (compare digits as atoms) vs `number_codes/2` (compute on digits as codes) |
 | `15-exceptions` (5) | `catch/3` & `throw/1`; the ISO `error(Formal, Context)` taxonomy (catch an engine error); selective catching & rethrow (the catcher is a unification); `throw` as non-local exit; typed errors as a reporting channel |
+| `16-boundaries` (5) | the engine's edges: catchable `int_overflow` (64-bit integers, no wraparound/bignum); the **uncatchable** `resource_error(steps)` (termination is a correctness duty); no dynamic database (`assertz`→`existence_error`, use accumulators); the fixed operator table (`op/3`/postfix/DCG are parse errors; operators are just compounds); robust-evaluator capstone |
 
 The "term model" arc (`02-terms` → `03-operators` → `04-lists`) was added
 after field feedback; design history in
