@@ -1,8 +1,8 @@
 # Design: `17-interpreters` & `18-search` chapters
 
-Status: **proposed, revised after the ch. 17 probe and authoring pass.**
-Designs chapters A (interpreters) and B (search) in full; C/D/E appear as
-ambitions only. The doc stays open until C is designed too.
+Status: **ch. 17 and ch. 18 authored and in the curriculum.** Designs
+chapters A (interpreters) and B (search) in full; C/D/E appear as ambitions
+only. The doc stays open until C is designed too.
 
 **Probe correction (ch. 17):** the `copy_term/2` pollution premise was false on
 `plgc` — user-fact `clause/2` does not exhibit variable pollution across
@@ -173,10 +173,12 @@ also finds, faster.
 1. `just ci` green after each chapter — full corpus compiles and passes.
 2. 17-03's `builtin/1` table + `call` actually fires for `is/2` in an encoded
    rule (probe-verified: `prove_bi(dbl(tom))` succeeds).
-3. 18-05 finds the same solution set as 18-04 (correctness) — pruning changes
-   speed, not answers.
+3. 18-05 finds the same solution set as 18-04 at N=4 (correctness) — pruning
+   changes speed, not answers. Verified: both find `[2,4,1,3]` and `[3,1,4,2]`.
 4. Every exercise requires inference the prose doesn't hand over (the
    transcription guard — the tracer was dropped for failing this).
+5. **Every test runs under the runner's default step budget (10000 steps, no
+   `PLG_MAX_STEPS`).** This shaped the N-queens sizes (below).
 
 ## Probe log (ch. 17)
 
@@ -199,3 +201,28 @@ also finds, faster.
   no consumer. A working `prove/1` is a complete synthesis at 3 exercises; the
   tracer idea is noted for a future *extractor-over-a-given-tree* exercise if a
   4th rung is wanted.
+
+## Probe log (ch. 18)
+
+- **One graph serves both DFS and BFS.** `edge(a,b). edge(a,c). edge(b,d).
+  edge(d,e). edge(c,e). edge(e,a). edge(e,f).` — a cycle (e→a) makes the
+  visited list load-bearing; DFS finds `a→e = [a,b,d,e]` (long, edge order)
+  while BFS finds `a→e = [a,c,e]` (short), landing the DFS/BFS contrast; `f` is
+  an unreachable sink for the negative test.
+- **The `length/2` saga (issue patch-prolog#54).** Naive N-queens built its
+  skeleton with `length(Rows, N)` — which *diverged* on plgc ≤ 0.4.4 because
+  stdlib `length/2` recursed into negative counts on backtracking. Filed as
+  patch-prolog#54; fixed in 0.4.5 (PR#55, verified independently). The ch. 18
+  naive exercise uses the natural `length/2` form, which is safe on ≥ 0.4.5.
+- **Step budget shapes the queens tests.** The runner uses the default 10000
+  steps (no `PLG_MAX_STEPS`). Under it: naive N=4 works, **naive N=5 blows the
+  budget**; pruned N=4/5/6 work, pruned N=8 blows. So 18-04 naive tests N=4
+  (both solutions); 18-05 pruned tests N=4 (same two) **and N=6 = 4 solutions**
+  — the payoff: pruned reaches boards naive can't. All probes re-verified under
+  the default budget, not a raised one.
+- **18-03 jugs test is robust to move-clause order.** Asserts start `s(0,0)`,
+  end `s(2,_)`, and `length(Path, 7)` (the 6-move minimum BFS finds) rather
+  than an exact path — so any valid clause ordering of the student's pour rules
+  passes.
+- Water jugs BFS reuses 18-02's solver verbatim except `edge/2` → `move/2` and
+  a fixed goal state → a `goal/1` property. Verified: the solver is generic.

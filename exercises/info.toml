@@ -516,3 +516,36 @@ mode = "test"
 name = "03-native"
 path = "exercises/17-interpreters/03-native.pl"
 mode = "test"
+
+# ============================================================
+# 18-search: Prolog as a search language. DFS with a visited list
+# (the cycle fix); BFS with an explicit frontier (the search moves from
+# the call stack into data, and finds shortest paths); water jugs (a
+# state space of rules with preconditions, generic solver reused);
+# N-queens two ways — generate-and-test vs place-and-check (propagation).
+# ============================================================
+
+[[exercises]]
+name = "01-dfs"
+path = "exercises/18-search/01-dfs.pl"
+mode = "test"
+
+[[exercises]]
+name = "02-bfs"
+path = "exercises/18-search/02-bfs.pl"
+mode = "test"
+
+[[exercises]]
+name = "03-jugs"
+path = "exercises/18-search/03-jugs.pl"
+mode = "test"
+
+[[exercises]]
+name = "04-queens-naive"
+path = "exercises/18-search/04-queens-naive.pl"
+mode = "test"
+
+[[exercises]]
+name = "05-queens-pruned"
+path = "exercises/18-search/05-queens-pruned.pl"
+mode = "test"
