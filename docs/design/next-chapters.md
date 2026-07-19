@@ -1,7 +1,21 @@
 # Design: `17-interpreters` & `18-search` chapters
 
-Status: **proposed.** Designs chapters A (interpreters) and B (search) in full;
-C/D/E appear as ambitions only. The doc stays open until C is designed too.
+Status: **proposed, revised after the ch. 17 probe and authoring pass.**
+Designs chapters A (interpreters) and B (search) in full; C/D/E appear as
+ambitions only. The doc stays open until C is designed too.
+
+**Probe correction (ch. 17):** the `copy_term/2` pollution premise was false on
+`plgc` — user-fact `clause/2` does not exhibit variable pollution across
+selections, so `prove/1` works *without* `copy_term`. `copy_term` is therefore
+**not taught in ch. 17** and reverts to deferred — most likely landing in ch. C
+(symbolic rewriting), where capture-avoiding substitution is a genuine need.
+
+**Capstone dropped (ch. 17):** a tracer (`solve/2` building a proof tree) was
+the planned 4th exercise, but it was transcription — the prose gave the clauses
+*and* the asserted tree, so copying solved it, and the tree had no consumer to
+motivate it. Ch. 17 ships at **3 exercises** (encode, conjunction, native); a
+working meta-circular interpreter with native escape is a complete synthesis.
+See the Probe log at the end of this doc.
 
 ## Intent
 
@@ -10,9 +24,10 @@ The foundation (00–16) teaches the mechanism thoroughly but stops short of
 takes machinery the foundation introduced and applies it to a system a student
 constructs. A is "terms-as-data" (compute *over* terms); B is "lists-as-control"
 (compute *over* state). They're complementary, ordered A before B because B's
-search machinery is the bigger payoff and A's `solve/1` is the smaller, more
+search machinery is the bigger payoff and A's `prove/1` is the smaller, more
 self-contained synthesis. `copy_term/2` — the one builtin the foundation
-deferred (ch. 11, "waiting for a motivated home") — lands in ch. 17.
+deferred (ch. 11, "waiting for a motivated home") — does **not** land here; it
+waits for ch. C.
 
 ## Constraints
 
@@ -20,8 +35,7 @@ deferred (ch. 11, "waiting for a motivated home") — lands in ch. 17.
 - Exercise contract unchanged: `% I AM NOT DONE` marker, hidden `test/0` below
   `% Do not edit below this line`, `:- dynamic(F/A).` for learner fact predicates.
 - **Probe every exercise against installed `plgc` before authoring** (the
-  standing rule). The one probe genuinely worth flagging: `copy_term/2`
-  freshening a clause body with variables (17-04) — verified before authoring.
+  standing rule).
 - No `loglings` source changes. `runner`/`bisect`/`exercise`/`update` untouched.
 - No tier label in `info.toml` (no schema change; 17/18 are plain chapters).
 
@@ -29,9 +43,12 @@ deferred (ch. 11, "waiting for a motivated home") — lands in ch. 17.
 
 A: a meta-circular interpreter over an **encoded** program — `clause(Head,
 Body)` facts authored as data (plgc has no `clause/2` builtin; this is the ch.
-16 "no dynamic DB" boundary made productive). `solve/1` walks goal terms;
-native goals escape via a `builtin/1` table; `copy_term/2` freshens clause
-bodies. Capstone: a tracer (`solve/2` with a proof tree).
+16 "no dynamic DB" boundary made productive). `prove/1` walks goal terms;
+native goals escape via a `builtin/1` table. No capstone — three exercises
+(encode, conjunction, native) is a complete synthesis. `copy_term/2` was
+originally to be taught here but the probe pass showed `prove/1` doesn't need
+it on `plgc`; a planned tracer capstone was dropped in authoring (transcription,
+no consumer for the tree); both are deferred to ch. C.
 
 B: state-space search with the frontier as a list of path-carrying nodes,
 `findall/3` for successor generation, `member/2` for the visited check. DFS
@@ -42,16 +59,17 @@ B: state-space search with the frontier as a list of path-carrying nodes,
 
 ### Module / file boundaries
 
-- `exercises/17-interpreters/` — 5 exercises; mirrored in `solutions/` + `hints/`.
+- `exercises/17-interpreters/` — 3 exercises; mirrored in `solutions/` + `hints/`.
 - `exercises/18-search/` — 5 exercises; mirrored likewise.
-- `exercises/info.toml` — 10 new ordered entries appended after `16-boundaries`.
+- `exercises/info.toml` — 8 new ordered entries appended after `16-boundaries`.
 - README + ROADMAP curriculum tables — two rows added; ROADMAP "Future" line
   unchanged (C+ remain).
 
 ### Public interfaces (conventions these chapters teach)
 
-- **ch 17**: `clause(Head, Body)` data-encoding; `solve/1` goal-walker; a
-  `builtin/1` reflection table; `copy_term/2` for clause-body freshening.
+- **ch 17**: `clause(Head, Body)` data-encoding; `prove/1` goal-walker; a
+  `builtin/1` reflection table for native goals (a fact-as-unification-template
+  idiom — `builtin(_ is _)` matches any `is/2` goal).
 - **ch 18**: `node(State, PathReversed)` frontier elements; `findall/3`
   successor generation; `member/2` visited check; BFS = `append(Frontier,
   Succs)` vs DFS = `append(Succs, Frontier)`.
@@ -59,42 +77,43 @@ B: state-space search with the frontier as a list of path-carrying nodes,
 ### Data shapes
 
 - **ch 17**: `clause(Head, Body)` facts (a fact `h.` encodes as
-  `clause(h, true)`); `solve/1` over `(A,B)` / `(C->T;E)` / atoms / builtins.
+  `clause(h, true)`); `prove/1` over `true` / `(A,B)` / clause lookup /
+  builtin-escape.
 - **ch 18**: frontier `[node(S, PathRev)]`; successor via
   `findall(node(S2,[Op|PathRev]), (move(S,Op,S2), \+ member(S2,Visited)), Succs)`;
   solution = `reverse(PathRev, Path)`.
 
-## Exercises — `17-interpreters`
+## Exercises — `17-interpreters` (3 exercises)
 
 **17-01/encode** — a program is data. Encode given rules/facts as `clause/2`
 facts; define one-step `prove(G) :- clause(G, true)` (facts only). Establishes
-representation + that proving = matching a clause head.
-```prolog
-% task: encode `parent(tom,bob).` and `likes(tom, X) :- parent(tom, X).`
-clause(parent(tom, bob), true).
-clause(likes(tom, X), parent(tom, X)).
-prove(G) :- clause(G, true).
-% test: prove(parent(tom,bob)); \+ prove(likes(tom,_)) fails (no recursion yet).
-```
+representation + that proving = matching a clause head; sets up that bodies
+aren't interpreted yet (so a rule head fails — the motivation for 17-02).
 
-**17-02/conjunction** — walk bodies. `prove((A,B)) :- prove(A), prove(B).`
-`prove(G) :- clause(G, Body), prove(Body).` Propositional only (no clause
-variables) — so copy_term isn't needed yet.
+**17-02/conjunction** — walk bodies. `prove(true).` and
+`prove((A,B)) :- prove(A), prove(B).` plus
+`prove(G) :- clause(G, Body), prove(Body).` Now rule bodies are interpreted,
+including multi-goal conjunctions. Recursion in the encoded program comes free
+(prove calls prove) and works without `copy_term` on `plgc` (probed).
 
 **17-03/native** — the reflection moment. An encoded program using `is/2` and
 `=` needs those called natively, not interpreted. Student writes the `builtin/1`
-table entries and the escape clause `prove(G) :- builtin(G), call(G)`.
+table entries and the escape clause `prove(G) :- builtin(G), call(G)` (no cut
+needed — builtin goals have no clauses, so the clause-lookup clause fails
+through cleanly). **Prose explicitly teaches the fact-as-unification-template
+idiom** — `builtin(_ is _)` is a fact whose argument is the compound term
+`is(_,_)` (data, not a call); querying `builtin(G)` unifies `G` against it with
+`_` as wildcards — and bridges to the same unify-against-a-fact move the
+student already did in 17-01's `clause(G, true)`. Without this bridge the
+`_ is _` pattern reads as magic.
 
-**17-04/variables** — `copy_term/2` lands here. The encoded program gains a
-recursive rule with variables (`ancestor(X,Y) :- parent(X,Z), ancestor(Z,Y)`).
-Used at two instantiations in one proof, variables collide without freshening.
-Student adds `copy_term(clause(H,B), clause(H,Bc)), prove(Bc)`. The test drives
-a two-step ancestor proof so the collision is observable.
-
-**17-05/tracer** (capstone) — `solve(Goal, Trace)` builds a proof-tree term.
-Conjunction → `(TA,TB)`; clause use → `Goal <- BodyProof`; builtin → `Goal <
-native>`. Test asserts the trace shape for a small derivation. The interpreter
-as introspection tool.
+~~**17-04/tracer** (capstone)~~ — **dropped in authoring.** The tracer gave
+its clauses *and* the asserted proof tree in the prose, so it was transcription,
+and the tree had no consumer to motivate it. A working `prove/1` (encode →
+conjunction → native) is a complete synthesis; no capstone is forced. If a
+4th exercise is later wanted, the better framing is an *extractor* over a
+given `solve/2` tree (count clause applications, list facts used) — a task that
+can't be copied and gives the tree a purpose.
 
 ## Exercises — `18-search`
 
@@ -126,7 +145,9 @@ also finds, faster.
   `=..` + `functor/3`/`arg/3` + recursion. Anchors: expression simplifier
   (`x+0 → x`, constant folding), symbolic differentiation (then simplify), a
   boolean normaliser. Shares ch. 17's "term-as-data" mindset; the chapter that
-  lands terms as a *first-class data structure*. Strongest of the three.
+  lands terms as a *first-class data structure*. **`copy_term/2` likely lands
+  here** — capture-avoiding substitution is a genuine need during rewriting.
+  Strongest of the three.
 - **D — difference lists.** O(1) append via the difference trick; `flatten/2`
   to a difference list; the technique DCGs are sugar for, taught by hand
   because plgc has no DCG. Likely one exercise within a broader chapter.
@@ -137,20 +158,44 @@ also finds, faster.
 
 ## Domain Events
 
-- **Chapter authored** → 5 exercises + solutions + nudge-hints added per
-  chapter; three trees mirrored; `info.toml` extended; README + ROADMAP tables
-  refreshed; `just ci` green (every solution passes, every starter parses).
+- **Chapter authored** → exercises + solutions + nudge-hints added (3 for
+  ch. 17, 5 for ch. 18); three trees mirrored; `info.toml` extended; README +
+  ROADMAP tables refreshed; `just ci` green (every solution passes, every
+  starter parses).
 - **A proposed exercise won't compile/pass on `plgc`** → a `plgc` gap/bug →
   file upstream, defer the exercise (the harness working as intended).
-- **`copy_term/2` probe fails on 17-04** → that's a `plgc` issue, not an
-  exercise rewrite — verify before authoring, per the standing rule.
+- **An exercise is transcription (the prose gives the answer)** → rework it so
+  the task requires inference the prose doesn't hand over, or drop it. The
+  tracer was dropped for this reason.
 
 ## Checkpoints
 
 1. `just ci` green after each chapter — full corpus compiles and passes.
-2. 17-04 demonstrably fails *without* `copy_term/2` and passes with it (the
-   payoff must be observable, not theoretical).
+2. 17-03's `builtin/1` table + `call` actually fires for `is/2` in an encoded
+   rule (probe-verified: `prove_bi(dbl(tom))` succeeds).
 3. 18-05 finds the same solution set as 18-04 (correctness) — pruning changes
    speed, not answers.
-4. Every chapter's capstone (17-05, 18-05) runs a non-trivial program the
-   student *authored*, not just a builtin demo — the synthesis-tier bar.
+4. Every exercise requires inference the prose doesn't hand over (the
+   transcription guard — the tracer was dropped for failing this).
+
+## Probe log (ch. 17)
+
+- `clause(p(X), holds(X))` served `clause(p(a), B)` then `clause(p(b), B)` →
+  `holds(a)`, `holds(b)`. **Fact variables are not polluted across selections**
+  on `plgc`; the classic meta-circular pollution premise is false here.
+- `prove/1` *without* `copy_term` succeeds on a 3-deep recursive chain
+  (`ancestor(tom, ann)` over `parent(tom,bob)`, `parent(bob,sue)`,
+  `parent(sue,ann)`). Recursion-in-the-encoded-program works unaided.
+- Native escape via `builtin/1` table + `call` (no cut) verified:
+  `prove_bi(dbl(tom))` over `clause(dbl(X), (value(X,V), R is V*2, Ans=R))`
+  succeeds.
+- `copy_term/2`'s one observable home on `plgc`: N independent template copies
+  (`dup_good(3, slot(_,_), L)` gives fresh variables per element). Real but
+  thin — deferred to ch. C where capture-avoiding substitution motivates it.
+- `findall/3` cannot be reimplemented in pure Prolog (needs a primitive);
+  rejected as a `copy_term` teaching home.
+- **Tracer capstone dropped in authoring.** `solve/2` building a proof tree was
+  transcription (prose gave the clauses and the asserted tree) and the tree had
+  no consumer. A working `prove/1` is a complete synthesis at 3 exercises; the
+  tracer idea is noted for a future *extractor-over-a-given-tree* exercise if a
+  4th rung is wanted.
