@@ -10,7 +10,7 @@ ISO-subset language (no `op/3`/postfix). CLI commands implemented: `init`,
 `update` (+ `--dry-run`, `--force`), `list`, `verify`, `hint`, `next`, `reset`,
 and the default watch loop.
 
-Curriculum on disk (84 exercises):
+Curriculum on disk (87 exercises):
 
 | Section | Topics |
 |---|---|
@@ -31,6 +31,7 @@ Curriculum on disk (84 exercises):
 | `14-atoms-text` (6) | `atom_length/2`, `atom_concat/3` (join & relational split), `atom_chars/2` (atom↔list, both ways), `number_chars/2` (compare digits as atoms) vs `number_codes/2` (compute on digits as codes) |
 | `15-exceptions` (5) | `catch/3` & `throw/1`; the ISO `error(Formal, Context)` taxonomy (catch an engine error); selective catching & rethrow (the catcher is a unification); `throw` as non-local exit; typed errors as a reporting channel |
 | `16-boundaries` (5) | the engine's edges: catchable `int_overflow` (64-bit integers, no wraparound/bignum); the **uncatchable** `resource_error(steps)` (termination is a correctness duty); no dynamic database (`assertz`→`existence_error`, use accumulators); the fixed operator table (`op/3`/postfix/DCG are parse errors; operators are just compounds); robust-evaluator capstone |
+| `17-interpreters` (3) | the synthesis tier begins: a program becomes `clause/2` data (the ch. 16 "no dynamic database" boundary made productive — the engine has no `clause/2` builtin, so you define it and store the program in it); `prove/1` walks goal terms (facts, conjunction, native escape via a `builtin/1` table + `call`). By the end you've written a working interpreter for an encoded program |
 
 The "term model" arc (`02-terms` → `03-operators` → `04-lists`) was added
 after field feedback; design history in
