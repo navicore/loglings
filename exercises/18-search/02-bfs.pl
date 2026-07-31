@@ -11,20 +11,31 @@
 % lives in a DATA structure called the FRONTIER, a queue of nodes waiting to be
 % expanded. Search moves from the call stack into a list you hold.
 %
-% Each frontier entry is a `node(State, PathRev)` — a state plus the path that
-% reached it, stored REVERSED (newest first, so prepending is cheap). The loop:
-%   - pop the front entry; if its State is the Goal, the answer is its path
-%     (reverse it to read start-to-goal);
+% Each frontier entry is a `node(State, Path)` — a state plus the path that
+% reached it (start-to-goal, the same order 01-dfs produced). The loop:
+%   - pop the FRONT entry; if its State is the Goal, its Path is the answer;
 %   - otherwise generate its successors with `findall/3` (chapter 00/08) —
 %     every edge out, to a state not already on its own path — and APPEND them
 %     to the BACK of the frontier (that's what makes it a queue).
 %
-% Append-to-back is breadth-first. (Append-to-front would be depth-first — the
-% whole difference between the two strategies is that one `append`.)
+% Watch it find the shortest path to `e`. New nodes go on the back, so the
+% two-hop path is reached before the three-hop one:
+%
+%     frontier = [node(a, [a])]
+%       pop a → successors b, c   →  [node(b, [a,b]), node(c, [a,c])]
+%       pop b → successor d       →  [node(c, [a,c]), node(d, [a,b,d])]
+%       pop c → successor e       →  [node(d, [a,b,d]), node(e, [a,c,e])]
+%       pop d → successor e       →  [node(e, [a,c,e]), node(e, [a,b,d,e])]
+%       pop e → e is the goal  →  Path = [a, c, e]
+%
+% The `e` reached via `c` was queued earlier (level two) than the `e` via `d`
+% (level three), so it's popped first — breadth-first finds shortest.
+% (Append-to-back is BFS; append-to-front would be DFS — the whole difference
+% between the two strategies is that one `append`.)
 %
 % Your task: write `bfs(Frontier, Goal, Path)` and the wrapper
 % `bfs_path(Start, Goal, Path) :- bfs([node(Start, [Start])], Goal, Path).`
-% `reverse/2` and `append/3` and `findall/3` are the stdlib.
+% `append/3` and `findall/3` are the stdlib.
 %
 % Delete the marker when done.
 

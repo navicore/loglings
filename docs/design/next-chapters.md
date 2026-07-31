@@ -70,7 +70,8 @@ B: state-space search with the frontier as a list of path-carrying nodes,
 - **ch 17**: `clause(Head, Body)` data-encoding; `prove/1` goal-walker; a
   `builtin/1` reflection table for native goals (a fact-as-unification-template
   idiom — `builtin(_ is _)` matches any `is/2` goal).
-- **ch 18**: `node(State, PathReversed)` frontier elements; `findall/3`
+- **ch 18**: `node(State, Path)` frontier elements (path carried **forward**,
+  start-to-goal — see the probe-log note on why not reversed); `findall/3`
   successor generation; `member/2` visited check; BFS = `append(Frontier,
   Succs)` vs DFS = `append(Succs, Frontier)`.
 
@@ -79,9 +80,10 @@ B: state-space search with the frontier as a list of path-carrying nodes,
 - **ch 17**: `clause(Head, Body)` facts (a fact `h.` encodes as
   `clause(h, true)`); `prove/1` over `true` / `(A,B)` / clause lookup /
   builtin-escape.
-- **ch 18**: frontier `[node(S, PathRev)]`; successor via
-  `findall(node(S2,[Op|PathRev]), (move(S,Op,S2), \+ member(S2,Visited)), Succs)`;
-  solution = `reverse(PathRev, Path)`.
+- **ch 18**: frontier `[node(S, Path)]` with `Path` forward (start-to-goal);
+  successor via
+  `findall(node(S2, P2), (move(S, S2), \+ member(S2, Path), append(Path, [S2], P2)), Succs)`;
+  the goal node's `Path` is returned as-is (no `reverse`).
 
 ## Exercises — `17-interpreters` (3 exercises)
 
@@ -119,9 +121,13 @@ can't be copied and gives the tree a purpose.
 
 **18-01/dfs** — natural recursion + visited accumulator + path. Callback to
 ch. 06 recursion and `deps.pl`'s `needs/2`, now cycle-safe and path-collecting.
-`path(Here, Goal, Visited, PathRev)`.
+`path(Here, Goal, Visited, Path)`.
 
-**18-02/bfs** — explicit frontier as a queue of `node(State, PathRev)` nodes.
+**18-02/bfs** — explicit frontier as a queue of `node(State, Path)` nodes
+(**path forward**, matching 18-01). The prose walks a worked frontier trace so
+the queue discipline is concrete, not just described. Revised after field
+feedback (the reversed-path version packed too many new ideas into one step —
+see probe log).
 The search lives in data, not the call stack. `bfs([node(G,Pr)|_], G, Sol) :-
 reverse(Pr, Sol).` Successors appended to the back.
 
@@ -226,3 +232,12 @@ also finds, faster.
   passes.
 - Water jugs BFS reuses 18-02's solver verbatim except `edge/2` → `move/2` and
   a fixed goal state → a `goal/1` property. Verified: the solver is generic.
+- **18-02 revised after field feedback (forward path, added trace).** The first
+  cut carried the path *reversed* (`node(State, PathRev)`, `reverse/2` at the
+  goal) — the idiomatic O(1)-prepend scheme, but it packed ~6 new ideas into
+  one step and the reversed path had nothing to do with BFS. A learner found it
+  too dense/abstract. Revised to a **forward** path (`append(Path,[N],NP)` per
+  extension, no `reverse`), which matches 18-01's forward path and drops the
+  whole `reverse`/`PathRev` idiom, plus a worked frontier trace in the prose.
+  18-03's given solver updated to match. Verified: identical results
+  (`a→e=[a,c,e]`, `b→c=[b,d,e,a,c]`, `f→a` none) with less machinery.

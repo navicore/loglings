@@ -8,13 +8,12 @@ edge(e, f).
 
 bfs_path(Start, Goal, Path) :- bfs([node(Start, [Start])], Goal, Path).
 
-bfs([node(Goal, PathRev) | _], Goal, Path) :-
-    reverse(PathRev, Path).
-bfs([node(State, PathRev) | Rest], Goal, Path) :-
+bfs([node(Goal, Path) | _], Goal, Path).
+bfs([node(State, Path) | Rest], Goal, Sol) :-
     State \= Goal,
-    findall(node(N, [N | PathRev]), (edge(State, N), \+ member(N, PathRev)), Succs),
+    findall(node(N, NP), (edge(State, N), \+ member(N, Path), append(Path, [N], NP)), Succs),
     append(Rest, Succs, Frontier),
-    bfs(Frontier, Goal, Path).
+    bfs(Frontier, Goal, Sol).
 
 % Do not edit below this line
 

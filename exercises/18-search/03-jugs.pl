@@ -34,12 +34,12 @@
 
 solve(Path) :- bfs([node(s(0, 0), [s(0, 0)])], Path).
 
-bfs([node(State, PathRev) | _], Path) :- goal(State), reverse(PathRev, Path).
-bfs([node(State, PathRev) | Rest], Path) :-
+bfs([node(State, Path) | _], Path) :- goal(State).
+bfs([node(State, Path) | Rest], Sol) :-
     \+ goal(State),
-    findall(node(N, [N | PathRev]), (move(State, N), \+ member(N, PathRev)), Succs),
+    findall(node(N, NP), (move(State, N), \+ member(N, Path), append(Path, [N], NP)), Succs),
     append(Rest, Succs, Frontier),
-    bfs(Frontier, Path).
+    bfs(Frontier, Sol).
 
 goal(s(A, _)) :- A =:= 2.
 
