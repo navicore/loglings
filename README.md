@@ -17,7 +17,7 @@ Inspired by [rustlings](https://github.com/rust-lang/rustlings) and [seqlings](h
 
 **Home Code Repository** is at [git.navicore.tech](https://git.navicore.tech/navicore/loglings)
 
-**GitHub mirror** at [github.com/navicore/loglings](https://github.com/navicore/loglings) — contributions (PRs and issues) belong on the [home repo](https://git.navicore.tech/navicore/loglings/issues)
+**PRs and issues** welcome at the [GitHub mirror](https://github.com/navicore/loglings)
 
 ## Prerequisites
 
