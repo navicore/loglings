@@ -10,7 +10,7 @@ ISO-subset language (no `op/3`/postfix). CLI commands implemented: `init`,
 `update` (+ `--dry-run`, `--force`), `list`, `verify`, `hint`, `next`, `reset`,
 and the default watch loop.
 
-Curriculum on disk (87 exercises):
+Curriculum on disk (92 exercises):
 
 | Section | Topics |
 |---|---|
@@ -32,6 +32,7 @@ Curriculum on disk (87 exercises):
 | `15-exceptions` (5) | `catch/3` & `throw/1`; the ISO `error(Formal, Context)` taxonomy (catch an engine error); selective catching & rethrow (the catcher is a unification); `throw` as non-local exit; typed errors as a reporting channel |
 | `16-boundaries` (5) | the engine's edges: catchable `int_overflow` (64-bit integers, no wraparound/bignum); the **uncatchable** `resource_error(steps)` (termination is a correctness duty); no dynamic database (`assertz`→`existence_error`, use accumulators); the fixed operator table (`op/3`/postfix/DCG are parse errors; operators are just compounds); robust-evaluator capstone |
 | `17-interpreters` (3) | the synthesis tier begins: a program becomes `clause/2` data (the ch. 16 "no dynamic database" boundary made productive — the engine has no `clause/2` builtin, so you define it and store the program in it); `prove/1` walks goal terms (facts, conjunction, native escape via a `builtin/1` table + `call`). By the end you've written a working interpreter for an encoded program |
+| `18-search` (5) | Prolog as a search language: DFS with a visited list (the cycle fix); BFS with an explicit frontier (search moves from the call stack into a queue; finds shortest paths; DFS vs BFS is one `append`); water jugs (a state space of rules with preconditions, generic solver reused); N-queens two ways — generate-and-test vs place-and-check (propagation, which scales to boards the naive version can't reach) |
 
 The "term model" arc (`02-terms` → `03-operators` → `04-lists`) was added
 after field feedback; design history in
